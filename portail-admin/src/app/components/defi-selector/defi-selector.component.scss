@@ -1,0 +1,92 @@
+.status {
+  padding: 4px;
+  border-radius: 4px;
+  width: fit-content;
+  font-size: medium;
+
+  &.en-cours {
+    background-color: var(--chip-en-cours-bg);
+    color: var(--chip-en-cours-color);
+  }
+  &.en-attente {
+    background-color: var(--chip-en-attente-bg);
+    color: var(--chip-en-attente-color);
+  }
+  &.termine {
+    background-color: var(--chip-termine-bg);
+    color: var(--chip-termine-color);
+  }
+}
+
+mat-card-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.title {
+  font-size: 1rem;
+}
+
+.chips-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  padding-left: 22px;
+}
+
+.status-container {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  align-items:self-start;
+}
+
+.dates-title {
+  font-size: small;
+  color: light-dark(#005bc1, #adc6ff);
+}
+
+mat-card-content {
+  padding-top: 10px;
+}
+
+mat-chip {
+  width: 80px;
+  font-size: small;
+}
+
+mat-icon {
+  margin: 10px;
+}
+
+/* Keep the chip blue and selected, even when disabled */
+.disabled-chip {
+  background-color: var(--mat-sys-on-primary) !important; /* Blue color */
+  color: white !important;
+  pointer-events: none; /* Disable click interaction */
+}
+
+/* Remove the ripple effect */
+.disabled-chip .mat-chip-ripple {
+  display: none;
+}
+
+.info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  
+  .name {
+    font-size: 1.5rem;
+    color: white;
+  }
+}

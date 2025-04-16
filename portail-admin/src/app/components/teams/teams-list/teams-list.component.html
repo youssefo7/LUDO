@@ -1,0 +1,72 @@
+<div class="team-list">
+  <div class="team-list-header">
+    <h2>Équipes</h2>
+    <div class="header-buttons">
+      <button
+        class="btn btn-create"
+        (click)="createTeam()"
+        matTooltip="Ajouter une équipe"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+      <button
+        class="btn btn-create"
+        (click)="showTeamSeparationDialog()"
+        matTooltip="Générer les équipes"
+      >
+        <span class="material-symbols-outlined">wand_stars</span>
+      </button>
+      <button
+        class="btn btn-create"
+        (click)="showNoTeamUsers()"
+        matTooltip="Participants sans équipe"
+      >
+        <mat-icon>person</mat-icon>
+      </button>
+    </div>
+  </div>
+  <mat-list class="team-list-container">
+    <mat-form-field appearance="outline" class="search-input">
+      <mat-label>Rechercher une équipe</mat-label>
+      <input matInput type="text" [(ngModel)]="searchQuery" />
+    </mat-form-field>
+    <ng-container *ngIf="filteredTeams.length === 0">
+      <div class="empty-message">Aucune équipe trouvée.</div>
+    </ng-container>
+    <ng-container *ngIf="filteredTeams.length > 0">
+      <mat-list-item
+        *ngFor="let team of filteredTeams"
+        (click)="onTeamClick(team)"
+        class="team-item"
+      >
+        <div class="team-content">
+          <div class="team-header">
+            <img
+              [src]="team.IMAGE || 'assets/default-image.png'"
+              class="team-image"
+              alt="team"
+            />
+            <div class="team-name">
+              <h3>{{ team.NOM }}</h3>
+            </div>
+          </div>
+          <div
+            class="participants-progress"
+            matTooltip="Nombre de participants"
+          >
+            <mat-progress-spinner
+              mode="determinate"
+              [value]="((team.USER_COUNT ?? 0) / tailleEquipe) * 100"
+              diameter="60"
+              strokeWidth="5"
+              class="progress-circle"
+            ></mat-progress-spinner>
+            <div class="progress-label">
+              {{ team.USER_COUNT ?? 0 }}/{{ tailleEquipe }}
+            </div>
+          </div>
+        </div>
+      </mat-list-item>
+    </ng-container>
+  </mat-list>
+</div>

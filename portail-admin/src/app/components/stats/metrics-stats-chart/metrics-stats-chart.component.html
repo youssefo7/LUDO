@@ -1,0 +1,132 @@
+<!-- Stats Chart Container -->
+<div class="stats-chart-container modern">
+  <mat-card class="component-card stats-container">
+    <!-- Loading state -->
+    <div class="loading-container" *ngIf="isLoading">
+      <mat-spinner diameter="40"></mat-spinner>
+      <span class="loading-message">Chargement des métriques...</span>
+    </div>
+
+    <!-- Error state -->
+    <div class="error-container" *ngIf="loadingError && !isLoading">
+      <mat-icon>error_outline</mat-icon>
+      <span class="error-message">Erreur lors du chargement des métriques</span>
+      <button mat-button color="primary" (click)="loadMetricsData()">
+        <mat-icon>refresh</mat-icon> Réessayer
+      </button>
+    </div>
+
+    <!-- Main content -->
+    <div class="left-section" *ngIf="!isLoading && !loadingError">
+      <!-- Sidebar with categories and metrics -->
+      <div class="stats-sidebar">
+        <app-time-slot-component></app-time-slot-component>
+        <div class="categories-list">
+          <button
+            class="category-item"
+            [class.active]="activeCategory === 'global'"
+            (click)="selectCategory('global')"
+            tabindex="0"
+          >
+            <mat-icon>analytics</mat-icon>
+            <span>Générales</span>
+          </button>
+          <button
+            class="category-item"
+            [class.active]="activeCategory === 'invitation'"
+            (click)="selectCategory('invitation')"
+            tabindex="0"
+          >
+            <mat-icon>mail</mat-icon>
+            <span>Invitations</span>
+          </button>
+          <button
+            class="category-item"
+            [class.active]="activeCategory === 'social'"
+            (click)="selectCategory('social')"
+            tabindex="0"
+          >
+            <mat-icon>groups</mat-icon>
+            <span>Sociales</span>
+          </button>
+        </div>
+
+        <div class="metrics-list">
+          <button
+            *ngFor="let dataType of getStatsForGroup(activeMetricType)"
+            class="metric-item"
+            [class.active]="selectedMetric?.ENDPOINT === dataType.ENDPOINT"
+            (click)="onStatTileClick(dataType)"
+            tabindex="0"
+          >
+            <div
+              class="metric-icon"
+              [style.background-color]="getMetricColor(dataType)"
+            >
+              <mat-icon>{{ getMetricIcon(dataType) }}</mat-icon>
+            </div>
+            <div class="metric-info">
+              <div class="metric-name">{{ dataType.LABEL_FR }}</div>
+              <div class="metric-value">{{ getMetricValue(dataType) }}</div>
+            </div>
+          </button>
+
+          <!-- Empty state for metrics list -->
+          <div
+            class="empty-metrics"
+            *ngIf="getStatsForGroup(activeMetricType).length === 0"
+          >
+            <mat-icon>info</mat-icon>
+            <span>Aucune métrique disponible dans cette catégorie</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bar Chart Display -->
+      <div class="barchart-display">
+        <div class="chart-header" *ngIf="selectedMetric">
+          <h2>{{ selectedMetric.LABEL_FR }}</h2>
+          <span class="chart-subtitle">Évolution par semaine</span>
+        </div>
+
+        <div
+          class="chart-area"
+          *ngIf="
+            selectedMetric &&
+            weeklyGraphLabels &&
+            weeklyGraphLabels.length > 0 &&
+            weeklyGraphData &&
+            weeklyGraphData.length > 0
+          "
+        >
+          <app-bar-chart
+            [title]="''"
+            [labels]="weeklyGraphLabels"
+            [data]="weeklyGraphData"
+            [xAxisTitle]="'Semaine'"
+            [yAxisTitle]="selectedMetric.LABEL_FR || ''"
+          ></app-bar-chart>
+        </div>
+
+        <div
+          class="chart-loading"
+          *ngIf="
+            selectedMetric &&
+            (!weeklyGraphLabels ||
+              !weeklyGraphLabels.length ||
+              !weeklyGraphData ||
+              !weeklyGraphData.length)
+          "
+        >
+          <mat-spinner diameter="40"></mat-spinner>
+          <span>Chargement des données...</span>
+        </div>
+
+        <div class="chart-placeholder" *ngIf="!selectedMetric">
+          <mat-icon>insert_chart</mat-icon>
+          <span>Sélectionnez une métrique pour afficher le graphique</span>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+</div>

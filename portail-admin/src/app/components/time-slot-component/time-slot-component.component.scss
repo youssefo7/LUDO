@@ -1,0 +1,55 @@
+.defi-selector-content {
+  padding: 0.5rem;
+  border-radius: 0.625rem;
+  background-color: var(--active);
+}
+
+.header-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 36px;
+}
+
+.dates-title {
+  font-size: 1rem;
+  margin: 10px;
+  display: block;
+}
+
+.chips-container {
+  display: flex;
+  align-items: center;
+  margin-top: 0.3rem !important;
+}
+
+.date-label {
+  margin: 0;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+}
+
+.chip {
+  padding: 0.2rem 0.5rem;
+  background-color: var(--accent-color);
+  border-radius: 1rem;
+  font-size: 0.7rem;
+  white-space: nowrap;
+  color: var(--white);
+}
+
+.disabled-chip {
+  cursor: default;
+  opacity: 0.8;
+}
+
+.edit-btn {
+  padding: 4px 8px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+  min-width: 28px;
+  margin-left: auto;
+}

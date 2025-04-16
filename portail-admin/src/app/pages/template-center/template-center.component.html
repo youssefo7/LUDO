@@ -1,0 +1,47 @@
+<div class="template-center">
+  <!-- Header Card -->
+  <mat-card class="header-card">
+    <div class="header">
+      <div class="info" *ngIf="template">
+        <span
+          class="name"
+          [matTooltip]="template.DESCRIPTION"
+          matTooltipPosition="above"
+          matTooltipShowDelay="500"
+          matTooltipHideDelay="100"
+          >{{ template.NOM || "Template sans nom" }}</span
+        >
+        <span class="name">|</span>
+        <span class="name"
+          >Date de création: {{ formattedDate(template["Created Date"]) }}</span
+        >
+      </div>
+      <div class="buttons">
+        <div class="buttons">
+          <button
+            type="button"
+            class="btn btn-flat"
+            (click)="openDeleteTemplateDialog()"
+            matTooltip="Supprimer le template"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+
+  <!-- Main Layout -->
+  <div class="layout">
+    <mat-card class="component-card">
+      <app-template-mission-list
+        [templateId]="templateId"
+      ></app-template-mission-list>
+    </mat-card>
+
+    <mat-card class="component-card">
+      <app-template-announcements-list [templateId]="templateId">
+      </app-template-announcements-list>
+    </mat-card>
+  </div>
+</div>

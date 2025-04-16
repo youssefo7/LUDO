@@ -1,0 +1,158 @@
+<div class="mission-container">
+  <div class="component-card leaderboard-card">
+    <!-- Loading state -->
+    <div class="loading-container" *ngIf="isLoading">
+      <mat-spinner diameter="40"></mat-spinner>
+      <span class="loading-message">Chargement des missions...</span>
+    </div>
+
+    <!-- Main content when not loading -->
+    <ng-container *ngIf="!isLoading">
+      <div class="leaderboard-header">
+        <div class="header-row">
+          <div class="header-title">
+            <mat-icon>assignment_turned_in</mat-icon>
+            <h2>Missions</h2>
+          </div>
+          <div class="filter-container">
+            <mat-form-field appearance="outline">
+              <mat-label>Rechercher</mat-label>
+              <input matInput (keyup)="applyFilter($event)" />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="leaderboard-content">
+        <div class="leaderboard-container">
+          <div class="table-wrapper">
+            <table
+              mat-table
+              [dataSource]="dataSource"
+              matSort
+              class="mission-table"
+              (matSortChange)="sortData($event)"
+            >
+              <!-- Mission Info Column (Badge, Name, Description) -->
+              <ng-container matColumnDef="missionInfo">
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  mat-sort-header="name"
+                  class="mat-column-missionInfo"
+                >
+                  Mission
+                </th>
+                <td
+                  mat-cell
+                  *matCellDef="let element"
+                  class="mission-info-cell mat-column-missionInfo"
+                >
+                  <div class="mission-info">
+                    <img
+                      class="mission-badge"
+                      [src]="element.IMAGE"
+                      alt="Mission Badge"
+                    />
+                    <div class="mission-details">
+                      <span class="mission-name">{{ element.TITRE_FR }}</span>
+                      <span class="mission-description">{{
+                        element.DESCR_APERCU_FR || "Aucune description"
+                      }}</span>
+                    </div>
+                  </div>
+                </td>
+              </ng-container>
+
+              <!-- Status Column -->
+              <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef class="mat-column-status"  mat-sort-header="status">
+                  Statut
+                </th>
+                <td
+                  mat-cell
+                  *matCellDef="let element"
+                  class="status-cell mat-column-status"
+                >
+                  <div class="status-container">
+                    <div
+                      *ngFor="let item of getMissionTags(element)"
+                      [ngClass]="getClass(item)"
+                    >
+                      <span>{{ item }}</span>
+                    </div>
+                  </div>
+                </td>
+              </ng-container>
+
+              <!-- Completion Count Column -->
+              <ng-container matColumnDef="completionCount">
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  mat-sort-header="completionCount"
+                  class="mat-column-completionCount"
+                >
+                  Nb. Complétion
+                </th>
+                <td
+                  mat-cell
+                  *matCellDef="let element"
+                  class="completion-count-cell mat-column-completionCount"
+                >
+                  <div class="stat-badge">
+                    {{ element.COMPLETION || "0" }}
+                  </div>
+                </td>
+              </ng-container>
+
+              <!-- Completion Rate Column -->
+              <ng-container matColumnDef="completionRate">
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  mat-sort-header="completionRate"
+                  class="mat-column-completionRate"
+                >
+                  % Complétion
+                </th>
+                <td
+                  mat-cell
+                  *matCellDef="let element"
+                  class="completion-rate-cell mat-column-completionRate"
+                >
+                  <div class="stat-badge completion-rate">
+                    {{ element.TAUX_COMPLETION || "0" }}%
+                  </div>
+                </td>
+              </ng-container>
+
+              <!-- Table Layout -->
+              <tr
+                mat-header-row
+                *matHeaderRowDef="displayedColumns; sticky: true"
+              ></tr>
+              <tr
+                mat-row
+                *matRowDef="let row; columns: displayedColumns"
+                class="mission-row"
+              ></tr>
+
+              <!-- Empty State -->
+              <tr class="mat-row" *matNoDataRow>
+                <td
+                  class="mat-cell empty-state"
+                  [attr.colspan]="displayedColumns.length"
+                >
+                  <div class="empty-message">
+                    <mat-icon>assignment</mat-icon>
+                    <span>Aucune mission trouvée</span>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

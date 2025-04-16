@@ -1,0 +1,133 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--primary-color);
+  height: 100vh;
+  padding: 1.25rem; 
+  box-sizing: border-box;
+}
+
+.login-logo-container {
+  text-align: center;
+  margin-bottom: 0.625rem; 
+  
+  .logo {
+    max-width: 11.25rem; 
+    height: auto;
+  }
+}
+
+.login-container {
+  width: 100%;
+  max-width: 26.25rem;
+  max-height: calc(100vh - 2.5rem); 
+  overflow-y: auto;
+}
+
+.login-card {
+  background-color: var(--white);
+  box-shadow: var(--card-shadow);
+  border-radius: 0.625rem; 
+  padding: 2rem; 
+  color: var(--primary-color);
+  
+  mat-card-header {
+    margin-bottom: 2rem; 
+    
+    mat-card-title {
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: var(--text-dark); 
+    }
+  }
+  
+  mat-card-content {
+    padding: 0;
+  }
+  
+  mat-form-field {
+    width: 100%;
+    margin-bottom: 1.25rem;
+    
+    &.mat-form-field-appearance-fill {
+      .mat-form-field-flex,
+      .mat-form-field-infix {
+        background-color: var(--input-bg);
+        border-radius: 0.25rem;
+      }
+    }
+    
+    mat-label {
+      color: var(--label-color);
+    }
+    
+    input.mat-input-element {
+      background-color: var(--input-bg);
+      padding: 0.75rem; 
+    }
+
+    .mat-mdc-input-element {
+      color: var(--text-color-2);
+    }
+  }
+  
+  .forgot-password {
+    text-align: right;
+    margin-bottom: 1.25rem; 
+    
+    a {
+      color: var(--button-bg);
+      text-decoration: none;
+      font-size: 0.9rem;
+      
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+  
+  .signin-btn {
+    background-color: var(--primary-color);
+    color: var(--white);
+    width: 100%;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 0.25rem; 
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    
+  }
+  
+  .error-message {
+    color: var(--warn-color);
+    margin-top: 0.75rem; 
+    font-size: small;
+  }
+}
+
+.bottom-links {
+  text-align: center;
+  margin-top: 1.5rem; 
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  
+  a {
+    color: var(--button-bg);
+    text-decoration: none;
+    margin: 0 0.25rem; 
+    
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

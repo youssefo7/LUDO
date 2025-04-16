@@ -1,0 +1,104 @@
+<div class="mission-base-form mission-popup-form">
+  <button mat-icon-button class="close-button" (click)="onClose()">
+    <mat-icon>close</mat-icon>
+  </button>
+
+  <h2>{{ data.TITRE_FR || "Mission" }}</h2>
+
+  <mat-dialog-content>
+    <div class="popup-header">
+      <img
+        *ngIf="data.IMAGE"
+        [src]="data.IMAGE"
+        alt="Badge"
+        class="popup-badge"
+      />
+      <p *ngIf="data.DESCR_APERCU_FR" class="mission-description">
+        {{ data.DESCR_APERCU_FR }}
+      </p>
+      <span class="mission-points" *ngIf="data.POINTS">
+        {{ data.POINTS }}
+      </span>
+    </div>
+
+    <p><strong>Type:</strong> {{ data.MISSION_TYPE }}</p>
+
+    <!-- Phase selection section -->
+    <div class="dates-section">
+      <div class="date-item">
+        <span class="date-label">Début</span>
+        <span class="date-value">{{
+          formattedDate(range.controls.start.value)
+        }}</span>
+      </div>
+      <div class="date-item">
+        <span class="date-label">Fin</span>
+        <span class="date-value">{{
+          formattedDate(range.controls.end.value)
+        }}</span>
+      </div>
+    </div>
+
+    <mat-chip-listbox multiple class="chips-container">
+      <mat-chip-option
+        *ngFor="let phase of stateService.allTimeSlots"
+        [selected]="selectedPhases.includes(phase)"
+        (click)="toggleSelection(phase)"
+        selectable="true"
+        class="chip"
+      >
+        {{ phase.LABEL }}
+      </mat-chip-option>
+    </mat-chip-listbox>
+
+    <a href="#" (click)="toggleDatePicker($event)" class="custom-link">
+      Dates personnalisées
+      <mat-icon class="link-icon">{{
+        isDatePickerVisible ? "remove" : "add"
+      }}</mat-icon>
+    </a>
+
+    <!-- Custom date picker section -->
+    <div *ngIf="isDatePickerVisible" class="date-picker-container">
+      <mat-form-field appearance="outline">
+        <mat-label>Plage de dates</mat-label>
+        <mat-date-range-input
+          [formGroup]="range"
+          [rangePicker]="picker"
+          [dateFilter]="dateFilter"
+        >
+          <input
+            matStartDate
+            formControlName="start"
+            placeholder="Date de début"
+          />
+          <input matEndDate formControlName="end" placeholder="Date de fin" />
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+      </mat-form-field>
+    </div>
+
+    <!-- Rang input field -->
+    <mat-form-field
+      appearance="outline"
+      class="full-width-field"
+      matTooltip="Rang d'apparition de la mission dans le défi"
+    >
+      <mat-label>Rang</mat-label>
+      <input
+        matInput
+        type="number"
+        [(ngModel)]="data.RANG"
+        name="rang"
+        required
+        min="1"
+      />
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <div *ngIf="isSuperAdmin" class="form-actions">
+    <button class="btn btn-modify" (click)="onSave()">Sauvegarder</button>
+    <button class="btn btn-delete" (click)="onDelete()">Retirer</button>
+  </div>
+</div>

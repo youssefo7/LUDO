@@ -1,0 +1,41 @@
+<div class="control-center">
+  <!-- Header Bar -->
+  <mat-card class="header-card">
+    <div class="header">
+      <div class="info">
+        <app-defi-selector></app-defi-selector>
+      </div>
+      <div class="buttons">
+        <button
+          type="button"
+          class="btn btn-flat"
+          (click)="openDefiInfoDialog()"
+          matTooltip="Informations/Modification"
+        >
+          <mat-icon>info_outline</mat-icon>
+        </button>
+        <button
+          type="button"
+          class="btn btn-flat"
+          (click)="openDefiStats()"
+          matTooltip="Statistiques"
+        >
+          <mat-icon>bar_chart</mat-icon>
+        </button>
+      </div>
+    </div>
+  </mat-card>
+
+  <!-- Main Layout -->
+  <div class="layout">
+    <mat-card class="component-card">
+      <app-teams-list></app-teams-list>
+    </mat-card>
+    <mat-card class="component-card">
+      <app-missions-list></app-missions-list>
+    </mat-card>
+    <mat-card class="component-card">
+      <app-annonces-list></app-annonces-list>
+    </mat-card>
+  </div>
+</div>

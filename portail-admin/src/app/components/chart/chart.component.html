@@ -1,0 +1,12 @@
+<div *ngIf="isDataLoaded">
+  <canvas
+    baseChart
+    width="600"
+    height="400"
+    [type]="'line'"
+    [data]="lineChartData"
+    [options]="lineChartOptions"
+    [legend]="lineChartLegend"
+  >
+  </canvas>
+</div>

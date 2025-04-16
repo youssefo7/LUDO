@@ -1,0 +1,277 @@
+<div class="container">
+  <mat-tab-group [selectedIndex]="selectedTabIndex">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <h3>Défis</h3>
+      </ng-template>
+      <div class="tab-content">
+        <div class="header">
+          <mat-form-field class="search-field" appearance="outline">
+            <mat-label>Rechercher un Défi</mat-label>
+            <input
+              matInput
+              [(ngModel)]="searchQuery"
+              (keyup)="applyFilter($event)"
+              type="text"
+            />
+
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width-field">
+            <mat-label>Entreprise</mat-label>
+            <mat-select
+              [(ngModel)]="selectedEntrepriseId"
+              (selectionChange)="onEntrepriseChange($event.value)"
+            >
+              <mat-option *ngIf="entrepriseAccessList.length > 1" value=""
+                >Toutes les entreprises</mat-option
+              >
+              <mat-option
+                *ngFor="let entreprise of this.entrepriseAccessList"
+                [value]="entreprise._id"
+              >
+                {{ entreprise.NOM }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <div class="cta-button-container">
+            <button
+              *ngIf="isSuperAdmin"
+              type="button"
+              class="btn btn-create"
+              (click)="openEntrepriseCreation()"
+            >
+              <span>Ajouter une entreprise</span>
+            </button>
+
+            <button
+              *ngIf="isSuperAdmin"
+              type="button"
+              class="btn btn-create"
+              (click)="openCreateDefiDialog()"
+            >
+              <span>Ajouter un défi</span>
+            </button>
+            <button
+              type="button"
+              class="btn btn-create"
+              (click)="openDefiStats()"
+            >
+              <span>Stats globales</span>
+            </button>
+          </div>
+        </div>
+
+        <table
+          mat-table
+          [dataSource]="dataSource"
+          class="custom-table mat-elevation-z1"
+          matSort
+          #defiSort="matSort"
+        >
+          <ng-container matColumnDef="name">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              style="width: 25%"
+            >
+              Nom
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <span class="row-text">{{ element["NOM_DÉFI_FR"] }}</span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="entreprise">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              style="width: 25%"
+            >
+              Entreprise
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <span class="row-text">{{
+                getEntrepriseNameById(element.ENTREPRISE)
+              }}</span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="status">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              style="width: 100px"
+            >
+              Status
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <span [ngClass]="defiService.getStatusClass(element).statusClass">
+                {{ defiService.getStatusClass(element).statusText }}
+              </span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="start">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              style="width: 100px"
+            >
+              Début
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ formattedDate(element.DATE_DEBUT) }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="end">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              style="width: 100px"
+            >
+              Fin
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ formattedDate(element.DATE_FIN) }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef style="width: 100px">
+              Actions
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <mat-icon
+                class="stats-icon"
+                (click)="onStatsClick(element, $event)"
+                matTooltip="statistiques"
+                >bar_chart</mat-icon
+              >
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: displayedColumns"
+            class="custom-row"
+            (click)="openDefiControl(row._id)"
+          ></tr>
+        </table>
+
+        <mat-paginator
+          [pageSizeOptions]="[10, 25, 100]"
+          showFirstLastButtons
+        ></mat-paginator>
+      </div>
+    </mat-tab>
+
+    <mat-tab *ngIf="isSuperAdmin">
+      <ng-template mat-tab-label>
+        <h3>Templates</h3>
+      </ng-template>
+
+      <div class="tab-content">
+        <div class="header">
+          <mat-form-field class="search-field" appearance="outline">
+            <mat-label>Rechercher un template</mat-label>
+            <input
+              matInput
+              [(ngModel)]="templateSearchValue"
+              (keyup)="applyTemplateFilter($event)"
+            />
+            <button
+              *ngIf="templateSearchValue"
+              matSuffix
+              mat-icon-button
+              aria-label="Clear"
+              (click)="clearTemplateSearch()"
+            >
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+
+          <button
+            *ngIf="isSuperAdmin"
+            type="button"
+            class="btn btn-create"
+            (click)="openCreateTemplateDialog()"
+          >
+            <span> Ajouter un template</span>
+          </button>
+        </div>
+
+        <table
+          mat-table
+          [dataSource]="templatesDataSource"
+          class="custom-table mat-elevation-z1"
+          matSort
+          #templatesSort="matSort"
+        >
+          <ng-container matColumnDef="name">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              style="width: 35%"
+            >
+              Nom
+            </th>
+            <td mat-cell *matCellDef="let template">
+              <span class="row-text">{{ template.NOM }}</span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="description">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              style="width: 45%"
+            >
+              Description
+            </th>
+            <td mat-cell *matCellDef="let template">
+              <span class="row-text">{{ template.DESCRIPTION }}</span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="creationDate">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              style="width: 80px"
+            >
+              Date de création
+            </th>
+            <td mat-cell *matCellDef="let template">
+              {{ formattedDate(template["Created Date"]) }}
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="templateDisplayedColumns"></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: templateDisplayedColumns"
+            class="custom-row"
+            (click)="openTemplateCenter(row._id)"
+          ></tr>
+        </table>
+        <mat-paginator
+          #templatesPaginator
+          [pageSizeOptions]="[10, 25, 50]"
+          showFirstLastButtons
+        ></mat-paginator>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

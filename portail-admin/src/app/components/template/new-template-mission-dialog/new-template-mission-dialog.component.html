@@ -1,0 +1,160 @@
+<div class="mission-creation-form">
+  <button mat-icon-button class="close-button" (click)="onClose()">
+    <mat-icon>close</mat-icon>
+  </button>
+
+  <h2>Ajouter une nouvelle mission</h2>
+
+  <mat-dialog-content>
+    <form
+      #newTemplateMissionForm="ngForm"
+      (ngSubmit)="assignNewTemplateMission()"
+    >
+      <mat-form-field appearance="outline">
+        <mat-label>Type de mission</mat-label>
+        <mat-select
+          [(ngModel)]="selectedMissionType"
+          name="selectedMissionType"
+          required
+          (selectionChange)="fetchMissionList()"
+        >
+          <mat-option *ngFor="let type of missionTypes" [value]="type">
+            {{ type }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" *ngIf="selectedMissionType">
+        <mat-label>Sélection de mission</mat-label>
+        <input
+          type="text"
+          matInput
+          [formControl]="missionSearchCtrl"
+          [matAutocomplete]="auto"
+          placeholder="Rechercher une mission..."
+          required
+          (focus)="onInputFocus()"
+          (click)="forceShowOptions()"
+        />
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          [displayWith]="displayFn"
+          (optionSelected)="missionSelected($event)"
+          [autoActiveFirstOption]="true"
+        >
+          <mat-option
+            *ngFor="let mission of filteredMissions | async"
+            [value]="mission"
+          >
+            {{ mission.TITRE_FR }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <!-- Phase selection section -->
+      <div class="dates-section">
+        <div
+          class="date-item"
+          matTooltip="Décalage du début de la mission depuis le début du défi"
+        >
+          <span class="date-label">Début</span>
+          <span class="date-value">{{ customDebut }}</span>
+        </div>
+        <div
+          class="date-item"
+          matTooltip="Décalage de la fin de la mission depuis le début du défi"
+        >
+          <span class="date-label">Fin</span>
+          <span class="date-value">{{ customFin }}</span>
+        </div>
+      </div>
+
+      <mat-chip-listbox multiple class="chips-container">
+        <mat-chip-option
+          *ngFor="let week of weeks"
+          [selected]="selectedWeeks.includes(week)"
+          (click)="toggleWeek(week)"
+          class="chip"
+        >
+          {{ week.label }}
+        </mat-chip-option>
+      </mat-chip-listbox>
+
+      <button
+        type="button"
+        (click)="toggleCustomOffsets()"
+        class="custom-link transparent-button"
+      >
+        Choix personnalisés
+        <mat-icon class="link-icon">{{
+          showCustomOffsets ? "remove" : "add"
+        }}</mat-icon>
+      </button>
+
+      <div *ngIf="showCustomOffsets" class="custom-offsets">
+        <mat-form-field
+          appearance="outline"
+          class="full-width-field"
+          matTooltip="Décalage du début de la mission depuis le début du défi"
+        >
+          <mat-label>Début</mat-label>
+          <input
+            matInput
+            type="number"
+            [(ngModel)]="customDebut"
+            name="customDebut"
+            [max]="customFin"
+          />
+        </mat-form-field>
+
+        <mat-form-field
+          appearance="outline"
+          class="full-width-field"
+          matTooltip="Décalage de la fin de la mission depuis le début du défi"
+        >
+          <mat-label>Fin</mat-label>
+          <input
+            matInput
+            type="number"
+            [(ngModel)]="customFin"
+            name="customFin"
+            [min]="customDebut"
+          />
+        </mat-form-field>
+      </div>
+
+      <mat-form-field
+        appearance="outline"
+        class="full-width-field"
+        matTooltip="Rang d'apparition de la mission dans le défi"
+      >
+        <mat-label>Rang</mat-label>
+        <input
+          matInput
+          type="number"
+          [(ngModel)]="rang"
+          name="rang"
+          required
+          min="1"
+        />
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+
+  <div class="form-actions">
+    <button
+      type="submit"
+      class="btn btn-create"
+      [disabled]="!selectedMissionId || isSubmitting"
+    >
+      <span *ngIf="!isSubmitting">Ajouter la mission</span>
+      <span *ngIf="isSubmitting">
+        <mat-spinner
+          diameter="20"
+          style="display: inline-block"
+        ></mat-spinner>
+        Ajout en cours...
+      </span>
+    </button>
+  </div>
+</div>

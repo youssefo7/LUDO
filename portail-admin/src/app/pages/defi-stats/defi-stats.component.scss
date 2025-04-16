@@ -1,0 +1,266 @@
+.defi-stats {
+  margin: 20px;
+  font-family: 'Roboto', sans-serif;
+
+  .header-card,
+  .component-card {
+    border-radius: 12px;
+    background-color: var(--background-color-3);
+    color: var(--text-color);
+  }
+
+  .header-card {
+    margin-bottom: 20px;
+    padding: 15px;
+  }
+
+  .header {
+    width: 100%;
+  }
+
+  .header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+    
+    .left-section {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      
+      
+    }
+    
+    .right-section {
+      margin-left: auto;
+
+      .btn-create {
+        padding: 8px 16px;
+        margin-left: 8px;
+        font-size: 14px;
+        border-radius: 4px;
+        height: auto;
+        min-width: auto;
+        white-space: nowrap;
+      }
+    }
+  }
+
+  .info {
+    display: flex;
+    align-items: center;
+  }
+
+  .component-card {
+    overflow: hidden;
+    height: 100%;
+
+    h2 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      font-size: 1.2rem;
+      font-weight: 500;
+    }
+  }
+
+  .layout {
+    margin-bottom: 20px;
+  }
+
+  .left-section {
+    display: flex;
+    gap: 20px;
+    height: 100%;
+  }
+}
+
+.defi-stats ::ng-deep {
+  .mat-mdc-tab-header {
+    background-color: var(--background-color);
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .mat-mdc-tab-label-active {
+    background-color: var(--background-color-3);
+    height: 100%;
+  }
+
+  .mat-mdc-tab-body-content {
+    padding: 15px;
+    overflow: hidden;
+    height: 100%;
+  }
+
+  .mat-mdc-tab-body-wrapper {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; 
+    flex: 1;
+  }
+}
+
+.top-section {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.stats-chart-container {
+  flex: 6;
+  min-width: 0;
+  height: 520px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  background-color: var(--background-color-3);
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.competition-leaderboard-container {
+  flex: 4;
+  min-width: 0;
+}
+
+.competition-container {
+  flex: 4;
+  min-width: 0;
+  height: 32.5rem !important; 
+  overflow: hidden !important;
+  display: flex !important; 
+  flex-direction: column !important;
+}
+
+.competition-container app-competition-leaderboard,
+.competition-container .leaderboard-component {
+  height: 100%;
+  display: block;
+}
+
+.bottom-section {
+  padding-bottom: 3rem;
+}
+
+.bottom-row {
+  display: flex;
+  gap: 20px; 
+  width: 100%;
+}
+
+.mission-container {
+  flex: 6; 
+  min-width: 0; 
+  height: 31.25rem !important; 
+  display: flex !important; 
+  flex-direction: column !important;
+}
+
+.mission-container app-mission-stats {
+  height: 100% !important;
+  display: block !important;
+}
+
+.mission-container .leaderboard-component {
+  height: 100% !important;
+  display: block !important;
+}
+
+.participant-container {
+  flex: 4;
+  min-width: 0;
+  height: 31.25rem !important; 
+  overflow: hidden !important;
+  display: flex !important; 
+  flex-direction: column !important;
+}
+
+.participant-container app-participant-leaderboard {
+  height: 100% !important;
+  display: block !important;
+}
+
+.participant-container .leaderboard-component {
+  height: 100% !important;
+  display: block !important;
+}
+
+::ng-deep .mat-mdc-header-row {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 10 !important;
+  background-color: rgba(30, 30, 30, 0.95) !important;
+}
+
+@media (max-width: 768px) {
+  .top-section {
+    flex-direction: column;
+  }
+  
+  .stats-chart-container,
+  .competition-leaderboard-container {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+  
+  .competition-container {
+    height: 400px;
+  }
+  
+  .bottom-row {
+    flex-direction: column;
+  }
+  
+  .mission-container,
+  .participant-container {
+    flex: 1 1 100%;
+    width: 100%;
+    height: 400px;
+    margin-bottom: 20px;
+  }
+  
+  .participant-container {
+    margin-bottom: 0;
+  }
+  
+  ::ng-deep app-participant-leaderboard {
+    .user-info-cell {
+      width: 50% !important;
+    }
+    
+    .activity-cell,
+    .registration-cell {
+      width: 25% !important;
+    }
+  }
+  
+  ::ng-deep app-competition-leaderboard {
+    .team-info-cell {
+      width: 60% !important;
+    }
+    
+    .points-cell {
+      width: 40% !important;
+    }
+  }
+  
+  ::ng-deep app-mission-stats {
+    .description-cell {
+      width: 45% !important;
+    }
+    
+    .activity-cell {
+      width: 30% !important;
+    }
+    
+    .completion-cell,
+    .points-cell {
+      width: 25% !important;
+    }
+  }
+}
+

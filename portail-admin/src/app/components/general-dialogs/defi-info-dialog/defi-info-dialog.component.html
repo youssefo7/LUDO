@@ -1,0 +1,132 @@
+<div class="defi-info-dialog">
+  <button mat-icon-button class="close-button" (click)="onClose()">
+    <mat-icon>close</mat-icon>
+  </button>
+  <mat-dialog-content>
+    <div class="defi-info-container">
+      <!-- Mode Lecture -->
+      <ng-container *ngIf="!editMode">
+        <h2>Informations du Défi</h2>
+        <div class="info-item">
+          <strong>Code Défi:</strong>
+          <div class="copy-section">
+            <span>{{ data.defiCode }}</span>
+            <button
+              mat-icon-button
+              (click)="copyToClipboard(data.defiCode, 'code')"
+              matTooltip="Copier le code Défi"
+            >
+              <mat-icon>{{
+                copiedCode ? "check_circle" : "content_copy"
+              }}</mat-icon>
+            </button>
+          </div>
+          <div class="info-item">
+            <strong>Lien du défi:</strong>
+            <div class="copy-section">
+              <span>https://defiludo.com?defi={{ data.defiId }}</span>
+              <button
+                mat-icon-button
+                (click)="
+                  copyToClipboard(
+                    'https://defiludo.com?defi=' + data.defiCode,
+                    'link'
+                  )
+                "
+                matTooltip="Copier le lien du défi"
+              >
+                <mat-icon>{{
+                  copiedLink ? "check_circle" : "content_copy"
+                }}</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="info-item">
+          <strong>Nom du défi:</strong>
+          <div class="copy-section">
+            <span>{{ data.defiName }}</span>
+          </div>
+        </div>
+      </ng-container>
+
+      <!-- Mode Édition -->
+      <ng-container *ngIf="editMode">
+        <mat-icon
+          class="back-icon"
+          (click)="editMode = false"
+          (keydown)="editMode = false"
+        >
+          arrow_back
+        </mat-icon>
+        <h2>Modification du Défi</h2>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Nom du défi</mat-label>
+          <input
+            matInput
+            [(ngModel)]="editableDefi.defiName"
+            name="defiName"
+            required
+          />
+          <mat-error *ngIf="!editableDefi.defiName">
+            Le nom du défi est vide.
+          </mat-error>
+        </mat-form-field>
+
+        <div class="date-picker-container">
+          <mat-form-field appearance="outline">
+            <mat-label>Plage de dates</mat-label>
+            <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+              <input
+                matStartDate
+                formControlName="start"
+                placeholder="Date de début"
+              />
+              <input
+                matEndDate
+                formControlName="end"
+                placeholder="Date de fin"
+              />
+            </mat-date-range-input>
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+          </mat-form-field>
+        </div>
+      </ng-container>
+      <div class="dates-section">
+        <div class="date-item">
+          <span class="date-label">Début</span>
+          <span class="date-value">{{
+            formattedDate(this.range.controls.start.value)
+          }}</span>
+        </div>
+        <div class="date-item">
+          <span class="date-label">Fin</span>
+          <span class="date-value">{{
+            formattedDate(this.range.controls.end.value)
+          }}</span>
+        </div>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions class="action-buttons">
+    <button *ngIf="!editMode" class="btn btn-modify" (click)="editMode = true">
+      Modifier
+    </button>
+
+    <!-- Mode Édition -->
+    <ng-container *ngIf="editMode">
+      <button
+        *ngIf="isSuperAdmin"
+        class="btn btn-delete"
+        (click)="onDelete()"
+      >
+        Supprimer Le Defi
+      </button>
+      <button class="btn btn-modify" (click)="onSave()">Enregistrer</button>
+    </ng-container>
+  </mat-dialog-actions>
+</div>

@@ -1,0 +1,39 @@
+<mat-card class="user-card" (click)="onCardClick()">
+  <div class="user-card-content">
+    <div class="user-info">
+      <img
+        *ngIf="user"
+        [src]="user.IMAGE || 'assets/default-image.png'"
+        alt="{{ user.NOM }}"
+        class="user-image"
+      />
+      <div class="user-details">
+        <span *ngIf="user" class="user-name"
+          >{{ user.PRENOM }} {{ user.NOM }}</span
+        >
+        <span *ngIf="userName" class="user-name">{{ userName }}</span>
+      </div>
+    </div>
+    <ng-container *ngIf="buttonType !== 'none'">
+      <button
+        mat-icon-button
+        (click)="onButtonClick($event)"
+        [ngClass]="buttonType === 'add' ? 'add-icon' : 'remove-icon'"
+        class="action-button"
+        [disabled]="disabled"
+        matTooltip="{{
+          buttonType === 'add'
+            ? disabled
+              ? 'En cours...'
+              : 'Ajouter le participant'
+            : 'Retirer le participant'
+        }}"
+      >
+        <mat-icon *ngIf="!disabled">{{
+          buttonType === "add" ? "add_circle" : "remove_circle"
+        }}</mat-icon>
+        <mat-spinner *ngIf="disabled" diameter="20"></mat-spinner>
+      </button>
+    </ng-container>
+  </div>
+</mat-card>

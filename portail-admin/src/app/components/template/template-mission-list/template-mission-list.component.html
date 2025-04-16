@@ -1,0 +1,63 @@
+<div class="mission-section">
+  <div class="mission-header">
+    <h2>Missions</h2>
+    <div class="header-buttons">
+      <button class="btn btn-create" (click)="openNewMissionDialog()" matTooltip="Ajouter une mission">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <!-- Missions List -->
+  <div
+    class="mission-list"
+    *ngIf="templateService.templateMissions && templateService.templateMissions.length > 0; else emptyList"
+  >
+    <mat-list>
+      <mat-list-item
+        *ngFor="let mission of templateService.templateMissions"
+        (click)="openEditTemplateMissionDialog(mission)"
+        class="mission-item"
+        tabindex="0"
+        role="button"
+        [attr.aria-label]="
+          'Voir les détails de la mission: ' + (mission.TITRE_FR || 'Mission')
+        "
+      >
+        <div class="mission-content">
+          <!-- Badge Image -->
+          <img
+            *ngIf="mission.IMAGE"
+            [src]="mission.IMAGE"
+            alt="Badge"
+            class="badge-image"
+          />
+
+          <!-- Mission Information -->
+          <div class="mission-info">
+            <div class="mission-text">
+              <h3>{{ mission.TITRE_FR || "Mission" }}</h3>
+            </div>
+
+            <div class="week-chips">
+              <span
+                class="week-chip"
+                *ngFor="let week of getWeeksForMission(mission)"
+              >
+                {{ week.label }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Mission Points -->
+          <span class="mission-points" *ngIf="mission.POINTS">
+            {{ mission.POINTS }}
+          </span>
+        </div>
+      </mat-list-item>
+    </mat-list>
+  </div>
+  <ng-template #emptyList>
+    <div class="empty-message">Aucune mission pour le moment</div>
+  </ng-template>
+</div>

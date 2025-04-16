@@ -1,0 +1,22 @@
+<div class="defi-selector-content" tabindex="0">
+  <div class="header-line" *ngIf="!isGlobal()">
+    <a class="date-label">({{
+      this.formattedDateRange(
+        stateService.startDate || undefined,
+        stateService.endDate || undefined
+      )
+    }})</a>
+    <button class="btn btn-create edit-btn" (click)="openSelectorDialog()">
+      <mat-icon>edit</mat-icon>
+    </button>
+  </div>
+
+  <div class="header-line" *ngIf="isGlobal()">
+    <a class="date-label">({{
+      this.formattedDateRange(
+        stateService.startDate || undefined,
+        stateService.endDate || undefined
+      )
+    }})</a>
+  </div>
+</div>

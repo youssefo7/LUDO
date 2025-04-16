@@ -1,0 +1,87 @@
+<div class="kanban-container">
+  <div class="kanban-header">
+    <h2>Tableau Kanban des Missions</h2>
+    <button class="close-button" (click)="closeDialog()">
+      <mat-icon>close</mat-icon>
+    </button>
+    <app-defi-selector />
+  </div>
+  <div class="kanban-content">
+    <!-- Left Navigation Button -->
+    <button
+      type="button"
+      class="btn btn-flat nav-button"
+      (click)="previousWeeks()"
+      [disabled]="currentWeekIndex === 0"
+    >
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+
+    <!-- Kanban Body -->
+    <div class="kanban-body">
+      <div
+        class="week-column"
+        *ngFor="let week of displayedWeeks"
+        [ngClass]="week.sectionType"
+      >
+        <div class="week-header">
+          <div class="week-title">
+            <ng-container [ngSwitch]="week.sectionType">
+              <ng-container *ngSwitchCase="'pre-defi'">Pré-Défi</ng-container>
+              <ng-container *ngSwitchCase="'post-defi'">Post-Défi</ng-container>
+              <ng-container *ngSwitchDefault
+                >Semaine {{ week.weekNumber }}</ng-container
+              >
+            </ng-container>
+          </div>
+          <div class="week-dates">
+            {{ formattedDateRangeWithoutYear(week.startDate, week.endDate) }}
+          </div>
+        </div>
+        <div class="missions-container">
+          <div
+            class="mission-card"
+            *ngFor="let mission of week.missions"
+            (click)="openMissionDetails(mission)"
+          >
+            <div
+              class="mission-content"
+              matTooltip="{{
+                formattedDateRange(mission.DATE_DEBUT, mission.DATE_FIN)
+              }}"
+              matTooltipPosition="right"
+            >
+              <img
+                *ngIf="mission.IMAGE"
+                [src]="mission.IMAGE"
+                alt="Badge"
+                class="badge-image"
+              />
+              <div class="mission-header">
+                <div class="mission-text">
+                  <h3>{{ mission.TITRE_FR || "Mission" }}</h3>
+                </div>
+              </div>
+              <span class="mission-points" *ngIf="mission.POINTS">
+                {{ mission.POINTS }}
+              </span>
+            </div>
+          </div>
+          <div class="no-missions" *ngIf="!week.missions?.length">
+            Aucune mission
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Navigation Button -->
+    <button
+      type="button"
+      class="btn btn-flat nav-button"
+      (click)="nextWeeks()"
+      [disabled]="currentWeekIndex + WEEKS_TO_DISPLAY >= weeks.length"
+    >
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+  </div>
+</div>

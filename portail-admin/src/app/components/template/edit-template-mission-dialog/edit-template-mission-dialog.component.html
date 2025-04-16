@@ -1,0 +1,121 @@
+<div class="mission-popup-form">
+  <button mat-icon-button class="close-button" (click)="onClose()">
+    <mat-icon>close</mat-icon>
+  </button>
+
+  <h2>{{ mission.TITRE_FR || "Mission" }}</h2>
+
+  <mat-dialog-content>
+    <div class="popup-header">
+      <img
+        *ngIf="mission.IMAGE"
+        [src]="mission.IMAGE"
+        alt="Badge"
+        class="popup-badge"
+      />
+      <p *ngIf="mission.DESCR_APERCU_FR" class="mission-description">
+        {{ mission.DESCR_APERCU_FR }}
+      </p>
+      <span class="mission-points" *ngIf="mission.POINTS">
+        {{ mission.POINTS }}
+      </span>
+    </div>
+
+    <div class="dates-section">
+      <div
+        class="date-item"
+        matTooltip="Décalage du début de la mission depuis le début du défi"
+      >
+        <span class="date-label">Début</span>
+        <span class="date-value">{{ customDebut }}</span>
+      </div>
+      <div
+        class="date-item"
+        matTooltip="Décalage de la fin de la mission depuis le début du défi"
+      >
+        <span class="date-label">Fin</span>
+        <span class="date-value">{{ customFin }}</span>
+      </div>
+    </div>
+
+    <div class="week-selection">
+      <mat-chip-listbox multiple class="chips-container">
+        <mat-chip-option
+          *ngFor="let week of weeks"
+          [selected]="selectedWeeks.includes(week)"
+          (click)="toggleWeek(week)"
+          class="chip"
+        >
+          {{ week.label }}
+        </mat-chip-option>
+      </mat-chip-listbox>
+    </div>
+
+    <button
+      type="button"
+      (click)="toggleCustomOffsets()"
+      class="custom-link transparent-button"
+    >
+      Choix personnalisés
+      <mat-icon class="link-icon">{{
+        showCustomOffsets ? "remove" : "add"
+      }}</mat-icon
+      >
+    </button>
+
+    <div *ngIf="showCustomOffsets" class="custom-offsets">
+      <mat-form-field
+        appearance="outline"
+        class="full-width-field"
+        matTooltip="Décalage du début de la mission depuis le début du défi"
+      >
+        <mat-label>Début</mat-label>
+        <input
+          matInput
+          type="number"
+          [(ngModel)]="customDebut"
+          [max]="customFin"
+        />
+      </mat-form-field>
+
+      <mat-form-field
+        appearance="outline"
+        class="full-width-field"
+        matTooltip="Décalage de la fin de la mission depuis le début du défi"
+      >
+        <mat-label>Fin</mat-label>
+        <input
+          matInput
+          type="number"
+          [(ngModel)]="customFin"
+          [min]="customDebut"
+        />
+      </mat-form-field>
+    </div>
+
+    <mat-form-field
+      appearance="outline"
+      class="full-width-field"
+      matTooltip="Rang d'apparition de la mission dans le défi"
+    >
+      <mat-label>Rang</mat-label>
+      <input
+        matInput
+        type="number"
+        [(ngModel)]="rang"
+        name="rang"
+        required
+        min="1"
+      />
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <div class="form-actions">
+    <button class="btn-delete" (click)="onDelete()" color="warn">
+      Supprimer
+    </button>
+    <button color="primary" class="btn btn-create" (click)="save()">
+      Sauvegarder
+    </button>
+  </div>
+</div>

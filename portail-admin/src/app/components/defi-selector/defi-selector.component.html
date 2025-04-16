@@ -1,0 +1,20 @@
+<div class="info">
+  <span class="name">{{ defi ? defi["NOM_DÉFI_FR"] : "Globale" }}</span>
+  <span class="name"> | </span>
+  <span class="name">
+    {{ defi ? defiService.getEntrepriseNameById(defi.ENTREPRISE) : "" }}</span
+  >
+  <span class="name"> | </span>
+  <span class="name">
+    {{ formattedDateRange(defi?.["DATE_DEBUT"], defi?.["DATE_FIN"]) }}
+  </span>
+  <div class="status-container">
+    <div *ngIf="defi" class="status">
+      <div [ngClass]="defiService.getStatusClass(defi).statusClass">
+        <span>
+          {{ defiService.getStatusClass(defi).statusText }}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

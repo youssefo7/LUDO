@@ -1,0 +1,141 @@
+<div class="mission-base-form mission-creation-form">
+  <button mat-icon-button class="close-button" (click)="onClose()">
+    <mat-icon>close</mat-icon>
+  </button>
+
+  <h2>Ajouter une nouvelle mission</h2>
+
+  <mat-dialog-content>
+    <form #newMissionForm="ngForm" (ngSubmit)="onSubmit(newMissionForm)">
+      <mat-form-field appearance="outline">
+        <mat-label>Type de mission</mat-label>
+        <mat-select
+          [(ngModel)]="selectedMissionType"
+          name="selectedMissionType"
+          required
+          (selectionChange)="fetchMissionList()"
+        >
+          <mat-option *ngFor="let type of missionTypes" [value]="type">
+            {{ type }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" *ngIf="selectedMissionType">
+        <mat-label>Sélection de mission</mat-label>
+        <input
+          type="text"
+          matInput
+          [formControl]="missionSearchCtrl"
+          [matAutocomplete]="auto"
+          placeholder="Rechercher une mission..."
+          required
+          (focus)="onInputFocus()"
+          (click)="forceShowOptions()"
+        />
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          [displayWith]="displayFn"
+          (optionSelected)="missionSelected($event)"
+          [autoActiveFirstOption]="true"
+        >
+          <mat-option
+            *ngFor="let mission of filteredMissions | async"
+            [value]="mission"
+          >
+            {{ mission.TITRE_FR }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <!-- Phase selection section -->
+      <div class="dates-section">
+        <div class="date-item">
+          <span class="date-label">Début</span>
+          <span class="date-value">{{
+            formattedDate(range.controls.start.value)
+          }}</span>
+        </div>
+        <div class="date-item">
+          <span class="date-label">Fin</span>
+          <span class="date-value">{{
+            formattedDate(range.controls.end.value)
+          }}</span>
+        </div>
+      </div>
+
+      <mat-chip-listbox multiple class="chips-container">
+        <mat-chip-option
+          *ngFor="let phase of stateService.allTimeSlots"
+          [selected]="selectedPhases.includes(phase)"
+          (click)="toggleSelection(phase)"
+          selectable="true"
+          class="chip"
+        >
+          {{ phase.LABEL }}
+        </mat-chip-option>
+      </mat-chip-listbox>
+
+      <a href="#" (click)="toggleDatePicker($event)" class="custom-link">
+        Dates personnalisées
+        <mat-icon class="link-icon">{{
+          isDatePickerVisible ? "remove" : "add"
+        }}</mat-icon>
+      </a>
+
+      <!-- Custom date picker section -->
+      <div *ngIf="isDatePickerVisible" class="date-picker-container">
+        <mat-form-field appearance="outline">
+          <mat-label>Plage de dates</mat-label>
+          <mat-date-range-input
+            [formGroup]="range"
+            [rangePicker]="picker"
+            [dateFilter]="dateFilter"
+          >
+            <input
+              matStartDate
+              formControlName="start"
+              placeholder="Date de début"
+            />
+            <input matEndDate formControlName="end" placeholder="Date de fin" />
+          </mat-date-range-input>
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+      </div>
+
+      <mat-form-field
+        appearance="outline"
+        matTooltip="Rang d'apparition de la mission dans le défi"
+      >
+        <mat-label>Rang</mat-label>
+        <input
+          matInput
+          type="number"
+          [(ngModel)]="rang"
+          name="rang"
+          required
+          min="1"
+        />
+      </mat-form-field>
+
+      <div class="form-actions">
+        <button
+          type="submit"
+          class="btn btn-create"
+          [disabled]="
+            !selectedMissionId ||
+            !newMissionStartDate ||
+            !newMissionEndDate ||
+            !rang
+          "
+        >
+          Ajouter
+        </button>
+      </div>
+    </form>
+  </mat-dialog-content>
+</div>

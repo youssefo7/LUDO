@@ -1,0 +1,23 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: var(--primary-color);
+}
+
+.logo {
+  width: 7%;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.selectors-container {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}

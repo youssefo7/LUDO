@@ -1,0 +1,106 @@
+<div class="team-separation-container">
+  <button mat-icon-button class="close-button" (click)="onCancel()">
+    <mat-icon>close</mat-icon>
+  </button>
+
+  <h2>Séparer les participants en équipes</h2>
+
+  <mat-dialog-content *ngIf="!isProposed">
+    <form
+      (ngSubmit)="onSubmit()"
+      [formGroup]="teamSeparationForm"
+      class="form-content"
+    >
+      <mat-form-field appearance="outline" class="full-line">
+        <mat-label>Max participants par équipe</mat-label>
+        <input
+          matInput
+          type="number"
+          min="2"
+          formControlName="maxUsersPerTeam"
+          required
+        />
+        <mat-error
+          *ngIf="teamSeparationForm.get('maxUsersPerTeam')?.hasError('min')"
+        >
+          Doit être au moins 2.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-line">
+        <mat-label>Nombre maximum d'équipes (optionel)</mat-label>
+        <input matInput type="number" formControlName="maxTeams" min="2" />
+        <mat-error *ngIf="teamSeparationForm.get('maxTeams')?.hasError('min')">
+          Doit être au moins 2 si spécifié.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-checkbox formControlName="separateDepartments">
+        Séparer les départements
+      </mat-checkbox>
+
+      <div class="form-actions">
+        <button class="btn btn-create" type="submit" [disabled]="isLoading">
+          {{ isLoading ? "Traitement en cours..." : "Attribuer les équipes" }}
+        </button>
+      </div>
+    </form>
+    <mat-error *ngIf="errorMessage" errorMessage>{{ errorMessage }}</mat-error>
+  </mat-dialog-content>
+  <mat-dialog-content *ngIf="isProposed">
+    <div class="team-container">
+      <div cdkDropListGroup>
+        <div *ngFor="let proposedTeam of proposedTeams" class="team">
+          <h3>
+            {{ proposedTeam.teamName }} -
+            <span class="mat-text-primary">
+              {{ estimatePoint(proposedTeam.teamId) }} pts
+            </span>
+          </h3>
+          <div
+            cdkDropList
+            [cdkDropListData]="proposedTeam.users"
+            (cdkDropListDropped)="drop($event)"
+            class="drop-list participants-list"
+          >
+            <div
+              *ngFor="let user of proposedTeam.users"
+              cdkDrag
+              class="drag-item"
+            >
+              <app-user-card
+                [userName]="
+                  user.name +
+                  (user.department ? ' - (' + user.department + ')' : '') +
+                  ' ' +
+                  user.estimatedPts +
+                  ' pts'
+                "
+                buttonType="none"
+              ></app-user-card>
+            </div>
+            <div
+              *ngIf="proposedTeam.users.length === 0"
+              class="empty-placeholder"
+            >
+              Déposer ici
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button
+        (click)="confirmTeams()"
+        [disabled]="isLoading"
+        class="btn btn-create"
+      >
+        Confirmer les équipes
+      </button>
+    </div>
+    <mat-error *ngIf="errorMessage" class="mat-text-warn">{{
+      errorMessage
+    }}</mat-error>
+  </mat-dialog-content>
+</div>

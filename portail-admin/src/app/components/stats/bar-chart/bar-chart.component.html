@@ -1,0 +1,23 @@
+<div
+  class="chart-wrapper"
+  #chartContainer
+  *ngIf="labels.length > 0 && data.length > 0; else loading"
+>
+  <canvas
+    baseChart
+    [data]="barChartData"
+    [options]="barChartOptions"
+    chartType="bar"
+  >
+  </canvas>
+</div>
+
+<ng-template #loading>
+  <div class="loading-container">
+    <div class="loading-spinner"></div>
+    <p>Chargement des données...</p>
+    <small *ngIf="!labels.length && !data.length"
+      >Aucune donnée disponible</small
+    >
+  </div>
+</ng-template>

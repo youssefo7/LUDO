@@ -1,0 +1,429 @@
+.mat-row, .mat-header-row {
+  height: 100px;
+}
+
+.leaderboard-container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  max-height: 100%;
+
+  .table-wrapper {
+    height: 100% !important;
+    max-height: 100% !important;
+    flex: 1;
+    width: 100%;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    
+    &::-webkit-scrollbar {
+      width: 0.375rem;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 0.1875rem;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  .participant-table {
+    width: 100%;
+    background-color: transparent;
+    border-collapse: separate;
+    border-spacing: 0 4px;
+    table-layout: fixed;
+    
+    .mat-mdc-header-row {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background-color: rgba(30, 30, 30, 0.95);
+      height: 48px;
+      
+      .mat-mdc-header-cell {
+        color: rgba(255, 255, 255, 0.85);
+        font-weight: 500;
+        font-size: 14px;
+        border-bottom: none;
+        padding: 0 12px;
+        
+        &:first-child {
+          border-top-left-radius: 8px;
+          border-bottom-left-radius: 8px;
+          padding-left: 16px;
+          text-align: left;
+          width: 40%;
+        }
+        
+        &:last-child {
+          border-top-right-radius: 8px;
+          border-bottom-right-radius: 8px;
+          padding-right: 16px;
+          text-align: right;
+          width: 20%;
+        }
+
+        &.mat-column-userInfo {
+          text-align: left;
+        }
+        
+        &.mat-column-lastActivity,
+        &.mat-column-registrationDate {
+          text-align: center;
+          width: 20%;
+        }
+        
+        &.mat-column-points {
+          text-align: right;
+        }
+      }
+    }
+    
+    .participant-row {
+      background-color: rgba(255, 255, 255, 0.05);
+      transition: background-color 0.2s ease, transform 0.2s;
+      height: auto !important;
+      cursor: pointer;
+      
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        transform: translateY(-2px);
+      }
+      
+      .mat-mdc-cell {
+        color: rgba(255, 255, 255, 0.9);
+        border-bottom: none;
+        padding: 8px 12px;
+        font-size: 14px;
+        
+        &:first-child {
+          border-top-left-radius: 8px;
+          border-bottom-left-radius: 8px;
+          padding-left: 16px;
+          text-align: left;
+          width: 40%;
+        }
+        
+        &:last-child {
+          border-top-right-radius: 8px;
+          border-bottom-right-radius: 8px;
+          padding-right: 16px;
+          text-align: right;
+          width: 20%;
+        }
+
+        &.mat-column-userInfo {
+          text-align: left;
+        }
+        
+        &.mat-column-lastActivity,
+        &.mat-column-registrationDate {
+          text-align: center;
+          width: 20%;
+        }
+        
+        &.mat-column-points {
+          text-align: right;
+        }
+      }
+    }
+    
+    .user-info-cell {
+      min-width: 12rem;
+      padding-left: 1rem;
+      
+      .user-info {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        
+        .user-avatar {
+          width: 2.625rem;
+          height: 2.625rem;
+          border-radius: 50%;
+          object-fit: cover;
+          background-color: var(--avatar-bg);
+          border: 0.0625rem solid var(--avatar-border);
+        }
+        
+        .user-details {
+          display: flex;
+          flex-direction: column;
+          
+          .user-name {
+            font-weight: 500;
+            font-size: 0.9375rem;
+          }
+          
+          .last-activity {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 4px;
+          }
+        }
+      }
+    }
+    
+    .points-cell {
+      min-width: 6.25rem;
+      text-align: right;
+      padding-right: 1rem;
+      
+      .points-value {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(33, 150, 243, 0.15);
+        color: rgba(33, 150, 243, 1);
+        border-radius: 16px;
+        padding: 4px 10px;
+        font-weight: 700;
+        font-size: 14px;
+        min-width: 60px;
+      }
+    }
+    
+    .missions-cell, .activities-cell {
+      min-width: 90px;
+      text-align: center;
+      
+      .stat-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(33, 150, 243, 0.15);
+        color: rgba(33, 150, 243, 1);
+        border-radius: 16px;
+        padding: 4px 12px;
+        font-weight: 500;
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+.mat-mdc-header-row {
+  height: 48px;
+  background-color: rgba(45, 45, 45, 0.7);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mat-mdc-header-cell {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  padding: 0 16px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mat-mdc-row {
+  height: auto;
+  min-height: 72px;
+  background-color: rgba(45, 45, 45, 0.4);
+  margin-top: 8px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background-color: rgba(61, 90, 254, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+  }
+}
+
+.mat-mdc-cell {
+  color: var(--white);
+  padding: 12px 16px;
+  border-bottom: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user-info-cell {
+  min-width: 12rem;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.user-avatar {
+  width: 2.625rem;
+  height: 2.625rem;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: var(--avatar-bg);
+  border: 0.0625rem solid var(--avatar-border);
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.user-name {
+  font-weight: 500;
+  color: var(--white);
+  font-size: 0.9375rem;
+}
+
+.points-cell {
+  min-width: 6.25rem;
+  text-align: right;
+}
+
+.activity-cell,
+.registration-cell {
+  min-width: 9.375rem;
+  padding: 0 0.5rem;
+  color: var(--paragraph-color);
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+.participant-container {
+  width: 100%;
+  height: 100% !important; /* Take full height of parent */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.component-card.leaderboard-card {
+  background-color: rgba(45, 45, 45, 0.3);
+  border-radius: 8px;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.leaderboard-header {
+  padding: 10px 16px 8px; 
+  background-color: rgba(55, 55, 55, 0.3);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  flex-shrink: 0; 
+}
+
+.header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px; 
+  
+  .header-title {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    
+    mat-icon {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 25px; 
+      height: 25px;
+      width: 25px;
+    }
+    
+    h2 {
+      margin: 0;
+      font-size: 25px; 
+      font-weight: 500;
+      color: var(--white);
+      white-space: nowrap;
+    }
+  }
+  
+  .filter-container {
+    width: 160px; 
+    
+    mat-form-field {
+      width: 100%;
+      font-size: 13px;
+      
+      ::ng-deep .mat-mdc-form-field-infix {
+        padding-top: 6px !important;
+        padding-bottom: 6px !important;
+      }
+      
+      ::ng-deep .mat-mdc-text-field-wrapper {
+        padding: 0 4px !important;
+      }
+
+      ::ng-deep .mat-mdc-floating-label:not(.mdc-floating-label--float-above) {
+        transform: translateY(-50%) scale(1) !important;
+        top: 50% !important;
+      }
+      
+      ::ng-deep .mdc-floating-label {
+        top: 50% !important;
+      }
+      
+      ::ng-deep .mat-mdc-input-element {
+        margin-top: 0 !important;
+        padding: 4px 8px !important;
+      }
+    }
+  }
+}
+
+.selectors-row {
+  display: flex;
+  justify-content: space-between;
+  
+  .selectors-left, .selectors-right {
+    display: flex;
+    align-items: center;
+  }
+  
+  .points-group, .time-group {
+    background-color: rgba(45, 45, 45, 0.4);
+    border-radius: 4px;
+    overflow: hidden;
+    height: 30px;
+    
+    .mat-button-toggle {
+      background-color: transparent;
+      color: rgba(255, 255, 255, 0.7);
+      min-width: 65px; 
+      font-size: 12px; 
+      line-height: 30px; 
+      height: 30px;
+      
+      ::ng-deep .mat-button-toggle-label-content {
+        line-height: 30px !important; 
+        padding: 0 10px !important; 
+      }
+      
+      &.mat-button-toggle-checked {
+        background-color: rgba(63, 81, 181, 0.3);
+        color: var(--white);
+      }
+    }
+  }
+}
+
+.leaderboard-content {
+  flex: 1;
+  height: calc(100% - 85px); 
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+

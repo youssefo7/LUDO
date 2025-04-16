@@ -1,0 +1,99 @@
+<div class="mission-section">
+  <div class="mission-header">
+    <h2>Missions</h2>
+    <div class="header-buttons">
+      <button
+        *ngIf="isSuperAdmin"
+        class="btn btn-create"
+        (click)="openNewMissionPopup()"
+        matTooltip="Ajouter une mission"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+      <button
+        class="btn btn-create"
+        (click)="toggleKanbanView()"
+        matTooltip="Vue Kanban"
+      >
+        <mat-icon>view_kanban</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div class="mission-list-container" *ngIf="!showKanbanView">
+    <mat-list
+      *ngIf="
+        missionService.defiMissions && missionService.defiMissions.length > 0;
+        else emptyList
+      "
+    >
+      <mat-list-item
+        *ngFor="let mission of missionService.defiMissions"
+        (click)="openMissionDetails(mission)"
+        (keydown.enter)="openMissionDetails(mission)"
+        (keydown.space)="openMissionDetails(mission); $event.preventDefault()"
+        class="mission-item"
+        tabindex="0"
+        role="button"
+        [attr.aria-label]="
+          'Voir les détails de la mission: ' + (mission.TITRE_FR || 'Mission')
+        "
+        [matTooltip]="
+          this.formattedDateRange(mission.DATE_DEBUT, mission.DATE_FIN)
+        "
+        matTooltipPosition="right"
+      >
+        <div class="mission-content">
+          <img
+            *ngIf="mission.IMAGE"
+            [src]="mission.IMAGE"
+            alt="Badge"
+            class="badge-image"
+          />
+          <div class="mission-info">
+            <div class="mission-text">
+              <h3>{{ mission.TITRE_FR || "Mission" }}</h3>
+            </div>
+          </div>
+          <span class="mission-completions" *ngIf="mission.COMPLETION">
+            {{ mission.COMPLETION }} complétions
+          </span>
+          <span class="mission-points" *ngIf="mission.POINTS">
+            {{ mission.POINTS }} pts
+          </span>
+        </div>
+      </mat-list-item>
+    </mat-list>
+    <ng-template #emptyList>
+      <div class="empty-message">Aucune mission pour le moment</div>
+    </ng-template>
+  </div>
+</div>
+
+<div
+  *ngIf="showKanbanView"
+  class="popup-overlay"
+  (click)="toggleKanbanView()"
+  (keydown.escape)="toggleKanbanView()"
+  (keydown.enter)="toggleKanbanView()"
+  (keydown.space)="toggleKanbanView(); $event.preventDefault()"
+  tabindex="0"
+  role="dialog"
+  aria-label="Vue Kanban"
+>
+  <div
+    class="kanban-popup"
+    (click)="$event.stopPropagation()"
+    (keydown.enter)="$event.stopPropagation()"
+    (keydown.space)="$event.stopPropagation()"
+    tabindex="0"
+  >
+    <app-defi-kanban
+      [defiStartDate]="defiStartDate"
+      [defiEndDate]="defiEndDate"
+      [missions]="missionService.defiMissions"
+      (closeKanban)="showKanbanView = false"
+    >
+    </app-defi-kanban>
+  </div>
+</div>

@@ -1,0 +1,34 @@
+<div class="annonce-section">
+  <div class="annonce-header">
+    <h2>Annonces</h2>
+    <button class="btn btn-create" (click)="openNewTemplateAnnonceDialog()" matTooltip="Ajouter une annonce">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+
+  <div class="annonce-list" *ngIf="annonces && annonces.length > 0; else emptyList">
+    <mat-list>
+      <mat-list-item
+        *ngFor="let annonce of annonces"
+        (click)="openTemplateAnnonceDetailsDialog(annonce)"
+        class="annonce-item"
+      >
+        <div class="annonce-content">
+          <div class="annonce-header-content">
+            <h3>{{ annonce.FR_TITRE || 'Sans titre' }}</h3>
+            <p *ngIf="annonce.FR_SOUS_TITRE">{{ annonce.FR_SOUS_TITRE }}</p>
+          </div>
+          <span class="annonce-date">
+            Jour {{ annonce.JOUR }} à {{annonce.HEURE.toString().padStart(2, '0')}}:{{annonce.MIN.toString().padStart(2, '0')}} 
+          </span>
+        </div>
+      </mat-list-item>
+    </mat-list>
+  </div>
+
+  <ng-template #emptyList>
+    <div class="empty-message">
+      Aucune annonce pour le moment
+    </div>
+  </ng-template>
+</div>

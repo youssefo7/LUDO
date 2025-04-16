@@ -1,0 +1,20 @@
+<h2>Participants sans équipe</h2>
+
+<mat-form-field appearance="outline" class="search-input">
+  <mat-label>Rechercher un participant</mat-label>
+  <input matInput type="text" [(ngModel)]="searchQuery"/>
+</mat-form-field>
+
+<div class="participants-list scrollable-content">
+  <ng-container *ngIf="filteredUsers.length === 0">
+    <div class="empty-message">Aucun utilisateur trouvé.</div>
+  </ng-container>
+  <ng-container *ngIf="filteredUsers.length > 0">
+    <app-user-card
+      *ngFor="let user of filteredUsers"
+      [user]="user"
+      buttonType="none"
+      (cardClick)="viewParticipant($event)"
+    ></app-user-card>
+  </ng-container>
+</div>

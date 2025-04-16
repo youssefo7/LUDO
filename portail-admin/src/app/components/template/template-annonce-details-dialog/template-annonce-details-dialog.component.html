@@ -1,0 +1,98 @@
+<div class="announcement-edit-container">
+  <div class="header-bar">
+    <h2>Modifier l'annonce</h2>
+    <button type="button" class="btn btn-flat close-button" (click)="onCancel()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div class="scrollable-content">
+    <form #editForm="ngForm" class="form-content">
+      <div class="form-section">
+        <h3>Français</h3>
+        <mat-form-field appearance="outline" class="full-line">
+          <mat-label>Titre (FR)</mat-label>
+          <input
+            matInput
+            [(ngModel)]="templateAnnonce.FR_TITRE"
+            name="frTitre"
+            required
+          />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-line">
+          <mat-label>Sous-titre (FR)</mat-label>
+          <textarea
+            matInput
+            [(ngModel)]="templateAnnonce.FR_SOUS_TITRE"
+            name="frContenu"
+            rows="2"
+          ></textarea>
+        </mat-form-field>
+      </div>
+
+      <div class="form-section">
+        <h3>English</h3>
+        <mat-form-field appearance="outline" class="full-line">
+          <mat-label>Titre (EN)</mat-label>
+          <input
+            matInput
+            [(ngModel)]="templateAnnonce.EN_TITRE"
+            name="enTitre"
+            required
+          />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-line">
+          <mat-label>Sous-titre (EN)</mat-label>
+          <textarea
+            matInput
+            [(ngModel)]="templateAnnonce.EN_SOUS_TITRE"
+            name="enContenu"
+            rows="2"
+          ></textarea>
+        </mat-form-field>
+      </div>
+
+      <div class="form-section">
+        <h3>Paramètres</h3>
+        <div class="date-time-section">
+          <mat-form-field appearance="outline" class="full-line">
+            <mat-label>Jour</mat-label>
+            <input
+              matInput
+              type="number"
+              [(ngModel)]="templateAnnonce.JOUR"
+              name="jour"
+              placeholder="Entrez le jour">
+          </mat-form-field>
+  
+          <mat-form-field appearance="outline" class="full-line">
+            <mat-label>Heure de publication</mat-label>
+            <input
+              matInput
+              type="time"
+              [(ngModel)]="selectedTime"
+              name="time"
+              required
+            />
+          </mat-form-field>
+        </div>
+        <mat-form-field appearance="outline" class="full-line" matTooltip="Paramètres à inclure dans la notification pour envoyer à l'app Ludo (sans le ?)">
+          <mat-label>UTM</mat-label>
+          <textarea
+            matInput
+            [(ngModel)]="templateAnnonce.UTM_TAG"
+            name="utm"
+            rows="1"
+          ></textarea>
+        </mat-form-field>
+      </div>
+    </form>
+  </div>
+
+  <div class="action-buttons">
+    <button type="button" class="btn btn-create" (click)="onUpdate()">Sauvegarder</button>
+    <button type="button" class="btn btn-delete" (click)="onDelete()">Supprimer</button>
+  </div>
+</div>

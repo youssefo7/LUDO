@@ -1,0 +1,489 @@
+@use '@angular/material' as mat;
+@use '../src/app/styles_theme-colors.scss' as style;
+
+
+:root {
+  /* Existing variables */
+  --primary-color: #3d88ff;   /* Bleu */
+  --accent-color: #0051d4;    /* Rose */
+  --secondary-color: #f55d90; /* Violet */
+  --warn-color: #F44336;      /* Rouge */
+  --success-color: #4CAF50;   /* Vert */
+  --info-color: #474850;      /* Cyan */
+  --background-color-2: #121212; /* Gris clair */
+  --background-color-3: #212121;
+  --text-color: #ffffff;      /* Texte principal */
+  --background-color: #2d2d2d;
+  --hover: #5a5b62;
+  --active: #3d3e44;
+  --paragraph-color: #aaa;
+  --paragraph-secondary-color: #888;
+  --text-color-2: #000000;
+  --card-background: #242424;
+  --mission-bg-active: #3d3e44;
+  --mission-bg-hover: #5a5b62;
+  --border-color: #555;
+  --white: #ffffff;
+  --black: #000000;
+  --chip-en-cours-bg: #d4edda;
+  --chip-en-cours-color: #155724;
+  --chip-en-attente-bg: #fff3cd;
+  --chip-en-attente-color: #856404;
+  --chip-termine-bg: #f8d7da;
+  --chip-termine-color: #721c24;
+  
+  /* New variables for leaderboard component */
+  --leaderboard-card-bg: rgba(45, 45, 45, 0.3);
+  --leaderboard-header-bg: rgba(55, 55, 55, 0.3);
+  --leaderboard-border-light: rgba(255, 255, 255, 0.1);
+  --leaderboard-text-light: rgba(255, 255, 255, 0.8);
+  --leaderboard-content-bg: rgba(0, 0, 0, 0.15);
+  --leaderboard-row-bg: rgba(255, 255, 255, 0.05);
+  --leaderboard-row-hover: rgba(255, 255, 255, 0.1);
+  --leaderboard-header-bg-sticky: rgba(30, 30, 30, 0.95);
+  --scrollbar-thumb: rgba(255, 255, 255, 0.2);
+  --scrollbar-track: rgba(0, 0, 0, 0.1);
+  --text-high-emphasis: rgba(255, 255, 255, 0.9);
+  --text-medium-emphasis: rgba(255, 255, 255, 0.85);
+  --text-low-emphasis: rgba(255, 255, 255, 0.6);
+  --mission-badge-border: rgba(255, 255, 255, 0.2);
+  --mission-badge-bg: rgba(255, 255, 255, 0.1);
+  --stats-count-bg: rgba(255, 193, 7, 0.15);
+  --stats-count-color: rgba(255, 193, 7, 1);
+  --stats-rate-bg: rgba(76, 175, 80, 0.15);
+  --stats-rate-color: var(--success-color);
+  --empty-state-color: rgba(255, 255, 255, 0.5);
+  --box-shadow-card: 0 2px 8px rgba(0, 0, 0, 0.2);
+
+  --competition-points-bg: rgba(33, 150, 243, 0.15);
+  --competition-points-color: rgba(33, 150, 243, 1);
+  --toggle-button-bg: rgba(63, 81, 181, 0.3);
+  --selector-group-bg: rgba(45, 45, 45, 0.4);
+
+  --metric-card-bg: rgba(255, 255, 255, 0.05);
+  --metric-card-hover: rgba(255, 255, 255, 0.1);
+  --metric-card-active: rgba(61, 136, 255, 0.2);
+}
+
+
+html {
+  color-scheme: dark;
+  @include mat.theme((
+    color: (
+      primary: style.$primary-palette,
+      tertiary: style.$tertiary-palette,
+    ),
+    typography: Roboto,
+    density: 0
+  ));
+}
+
+.mat-mdc-unelevated-button {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+  border-radius: 10px !important;
+}
+
+.mat-row-header {
+  background-color: var(--accent-color) !important;
+  font-weight: 500 !important;
+  font-size: medium !important;
+}
+
+.mat-row-cell {
+  font-weight: 400 !important;
+}
+
+.image-tab {
+  width: 60px !important;
+  height: 60px !important;
+  border-radius: 50% !important;
+  vertical-align: middle !important;
+  margin: 10px
+}
+
+.header-tab-container {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "Albert Sans", sans-serif;
+  background-color: #121212;
+  color: #fff;
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+h2 {
+  font-size: 1.75rem;
+  font-weight: bold;
+}
+
+h3 {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+h4 {
+  font-size: 1.25rem;
+  font-weight: normal;
+}
+
+h5 {
+  font-size: 1rem;
+  font-weight: normal;
+}
+
+h6 {
+  font-size: 0.75rem;
+  font-weight: normal;
+  color: var(--color-secondary);
+}
+
+.actions {
+  display: flex;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+mat-list {
+  .mat-mdc-list-item {
+    height: 75px !important;
+    border-radius: 5px !important;
+    transition: background-color 0.3s ease, transform 0.2s ease !important;
+
+    &:hover {
+      background-color: #5a5b62 !important;
+      transform: scale(1.02);
+      cursor: pointer;
+    }
+
+    &:active {
+      background-color: #3d3e44 !important;
+      transform: scale(0.98);
+    }
+  }
+}
+
+.btn {
+  display: inline-block;
+  font-family: inherit;
+  font-size: 1rem;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: #cccccc;
+  }
+}
+
+.btn-create {
+  @extend .btn;
+  background-color: var(--primary-color);
+  color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  
+  &:hover:not(:disabled) {
+    background-color: #3371e0;
+  }
+}
+
+.btn-modify {
+  @extend .btn;
+  background-color: var(--primary-color);
+  color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  
+  &:hover:not(:disabled) {
+    background-color: #3371e0;
+  }
+}
+
+.btn-delete {
+  @extend .btn;
+  background-color: #ff4444;
+  color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  
+  &:hover:not(:disabled) {
+    background-color: #e33b3b;
+  }
+}
+
+.btn-flat {
+  @extend .btn;
+  background-color: transparent;
+  color: inherit;
+  box-shadow: none;
+  
+  &:hover:not(:disabled) {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.mat-text-black {
+  color: var(--black) !important;
+}
+.mat-text-primary {
+  color: var(--primary-color)!important;
+}	
+.mat-text-warn {
+  color: var(--warn-color);
+}	
+.mat-text-accent {
+  color: var(--accent-color);
+}
+
+.icon-btn{
+  background-color: var(--primary-color) !important;
+  color: white !important;
+}
+
+::-webkit-scrollbar {
+  width: 8px;         
+  background: transparent; 
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; 
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--white); 
+  border-radius: 4px;                 
+  border: none;
+}
+
+::-webkit-scrollbar-button {
+  display: none;
+}
+
+.action-button {
+  background: transparent;
+  border: none;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  &.add-icon {
+    color: #3d88ff;
+    
+    &:hover {
+      color: #5a9bff;
+    }
+  }
+
+  &.remove-icon {
+    color: #ff4444;
+    
+    &:hover {
+      color: #ff6666;
+    }
+  }
+}
+
+input[matInput] {
+  border: 1px solid #444;
+  border-radius: 4px;
+  color: #fff;
+  font-family: "Albert Sans", sans-serif;
+  transition: border-color 0.3s ease;
+  
+  &:focus {
+    border-color: #fff;
+    outline: none;
+  }
+}
+
+.scrollable-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+:host {
+  display: block;
+  position: relative;
+}
+
+/* Common Form/Dialog Base Styles */
+.mission-base-form {
+  position: relative;
+  max-width: 62.5rem;
+  border-radius: 0.5rem;
+  background: var(--background-color);
+  color: var(--text-color);
+  padding: 1.25rem;
+  box-shadow: var(--box-shadow-large);
+  
+  .close-button {
+    position: absolute;
+    top: 0.9375rem;
+    right: 0.9375rem;
+    background: transparent;
+    border: none;
+    color: var(--text-color);
+    
+    mat-icon {
+      font-size: 1.875rem;
+    }
+  }
+  
+  h2 {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+  
+  mat-form-field {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 1.25rem;
+  }
+  
+  mat-dialog-content {
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+}
+
+.mission-popup-form {
+  @extend .mission-base-form;
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+  
+  .popup-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 1rem;
+  }
+  
+  .popup-badge {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .mission-description {
+    font-size: 0.95rem;
+    color: var(--paragraph-color);
+  }
+  
+  .mission-points {
+    margin-left: auto;
+    padding: 4px 12px;
+    background-color: var(--primary-color, #007bff);
+    color: var(--white);
+    border-radius: 16px;
+    font-weight: 500;
+  }
+}
+
+/* Common Date Section Components */
+.dates-section {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 1.25rem 0;
+  padding: 1rem;
+  background: var(--active, #f5f5f5);
+  border-radius: 0.5rem;
+}
+
+.date-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.date-label {
+  font-size: 0.875rem;
+  color: var(--paragraph-color, #666);
+  margin-bottom: 0.25rem;
+}
+
+.date-value {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-color, #333);
+}
+
+/* Common Chips Components */
+.chips-container {
+  margin-top: 0.625rem;
+  padding: 0.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.chip {
+  margin: 0.3125rem;
+  cursor: pointer;
+  font-size: 12px;
+  
+  &.mat-chip-selected {
+    background-color: var(--primary-color, #007bff);
+  }
+}
+.empty-message{
+  padding-top:2rem;
+  text-align: center;
+  color: #888;
+  font-style: italic;
+
+}
+
+/* Common Link Styling */
+.custom-link {
+  text-decoration: none;
+  color: var(--text-color, #333);
+  display: flex;
+  align-items: center;
+  gap: 0.3125rem;
+  cursor: pointer;
+  margin: 1rem 0;
+  
+  .link-icon {
+    font-size: 1rem;
+  }
+}
+
+/* Common Datepicker Container */
+.date-picker-container {
+  margin-top: 1rem;
+  margin-bottom: 15px;
+}

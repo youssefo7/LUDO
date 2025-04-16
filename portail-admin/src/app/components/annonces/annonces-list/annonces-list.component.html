@@ -1,0 +1,44 @@
+<div class="annonce-section">
+  <!-- Sticky Header with Floating Effect -->
+  <div class="annonce-header">
+    <h2>Annonces</h2>
+    <button class="btn btn-create" (click)="openNewAnnonceDialog()" matTooltip="Ajouter une annonce">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+
+  <!-- Annonces List -->
+  <ng-container *ngIf="annonces && annonces.length > 0; else emptyList">
+    <mat-list class="annonce-list">
+      <mat-list-item
+        *ngFor="let annonce of annonces"
+        (click)="openAnnonceDetailsDialog(annonce)"
+        class="annonce-item"
+      >
+        <div class="annonce-content">
+          <div class="annonce-header-content">
+            <h3>{{ annonce.FR_TITRE || 'Sans titre' }}</h3>
+            <p *ngIf="annonce.FR_SOUS_TITRE">{{ annonce.FR_SOUS_TITRE }}</p>
+          </div>
+          <span class="annonce-date">
+            {{ annonce.DATE | date:'short' }}
+          </span>
+          <div class="annonce-icon-container">
+            <mat-icon *ngIf="isUpcoming(annonce)" class="annonce-icon">
+              hourglass_bottom
+            </mat-icon>
+            <mat-icon *ngIf="!isUpcoming(annonce)" class="annonce-icon">
+              check_circle
+            </mat-icon>
+          </div>
+        </div>
+      </mat-list-item>
+    </mat-list>
+  </ng-container>
+
+  <ng-template #emptyList>
+    <div class="empty-message">
+      Aucune annonce pour le moment
+    </div>
+  </ng-template>
+</div>

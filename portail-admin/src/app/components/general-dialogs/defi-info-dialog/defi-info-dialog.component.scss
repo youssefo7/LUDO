@@ -1,0 +1,70 @@
+:host {
+  display: block;
+  background-color: var(--background-color);
+  position: relative;
+}
+
+.defi-info-dialog {
+  position: relative;
+  padding: 1.25rem; 
+}
+
+.defi-info-dialog h2 {
+  text-align: center;
+  margin-bottom: 1.25rem; 
+  font-size: 1.5rem;
+  color: var(--text-color);
+}
+
+.close-button {
+  position: absolute;
+  top: 0.625rem;
+  right: 0.625rem; 
+  color: var(--text-color);
+}
+
+.defi-info-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: var(--text-color);
+}
+
+.copy-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem; 
+  border-radius: 0.25rem; 
+  background-color: var(--background-color-2);
+}
+
+.copy-section span {
+  flex: 1;
+}
+
+.date-picker-container {
+  margin-top: 0.5rem;
+}
+
+.dates-section {
+  justify-content: space-between;
+  background-color: var(--background-color-2, #1e1e1e);
+  color: var(--text-color, #fff);
+
+  .date-item {
+    .date-value {
+      font-size: 1rem;
+    }
+  }
+}
+
+.action-buttons {
+  gap: 1rem;
+}

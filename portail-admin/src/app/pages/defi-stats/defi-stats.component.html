@@ -1,0 +1,59 @@
+<div *ngIf="isDataLoaded" class="defi-stats">
+  <mat-card class="header-card">
+    <div class="header">
+      <div class="header-row">
+        <div class="left-section" *ngIf="!isGlobal()">
+          <app-defi-selector></app-defi-selector>
+        </div>
+        <div class="right-section">
+          <button
+            *ngIf="!isGlobal()"
+            class="btn btn-create"
+            (click)="openControlCenter()"
+            aria-label="Modifier le défi"
+            matTooltip="Modifier le défi dans le centre de contrôle"
+            matTooltipPosition="above"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+
+  <!-- Top Section - Stats/Charts and Competition Leaderboard side by side -->
+  <div class="layout top-section" *ngIf="!isGlobal()">
+    <div class="layout stats-chart-container">
+      <app-metrics-stats-chart></app-metrics-stats-chart>
+    </div>
+    <div class="layout competition-leaderboard-container">
+      <!-- Right Side - Competition Leaderboard -->
+      <div class="competition-container">
+        <app-competition-leaderboard
+          #teamLeaderboard
+          class="leaderboard-component"
+        ></app-competition-leaderboard>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Section - Mission and Participant Leaderboards side by side -->
+  <div class="layout bottom-section" *ngIf="!isGlobal()">
+    <div class="bottom-row">
+      <!-- Left Side - Mission Stats Container -->
+      <div class="mission-container">
+        <app-mission-stats
+          #missionStats
+          class="leaderboard-component"
+        ></app-mission-stats>
+      </div>
+
+      <div class="participant-container">
+        <app-participant-leaderboard
+          #participantLeaderboard
+          class="leaderboard-component"
+        ></app-participant-leaderboard>
+      </div>
+    </div>
+  </div>
+</div>

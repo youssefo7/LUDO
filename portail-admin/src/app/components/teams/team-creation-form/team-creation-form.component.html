@@ -1,0 +1,39 @@
+<div class="team-creation-form">
+  <button mat-icon-button class="close-button" (click)="onCancel()">
+    <mat-icon>close</mat-icon>
+  </button>
+  <h2>Créer une nouvelle équipe</h2>
+  <mat-dialog-content>
+    <form (ngSubmit)="onSubmit()" [formGroup]="teamForm">
+      <mat-form-field appearance="outline">
+        <mat-label>Nom de l'équipe</mat-label>
+        <input matInput formControlName="teamName" required />
+        <mat-error *ngIf="teamForm.get('teamName')?.hasError('required')">
+          Le nom est obligatoire
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Slogan de l'équipe</mat-label>
+        <input matInput formControlName="teamSlogan" />
+      </mat-form-field>
+
+      <div class="form-actions">
+        <button
+          type="submit"
+          [disabled]="teamForm.invalid || isSubmitting"
+          class="btn btn-create"
+        >
+          <span *ngIf="!isSubmitting">Créer</span>
+          <span *ngIf="isSubmitting">
+            <mat-spinner
+              diameter="20"
+              style="display: inline-block"
+            ></mat-spinner>
+            Création en cours...
+          </span>
+        </button>
+      </div>
+    </form>
+  </mat-dialog-content>
+</div>

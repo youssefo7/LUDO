@@ -1,0 +1,177 @@
+<div class="dialog-container">
+  <div class="header-bar">
+    <div class="left-info">
+      <div class="team-logo-container">
+        <img
+          [src]="teamForm.value.teamImage || 'assets/default-image.png'"
+          alt="Team Logo"
+          class="team-logo"
+        />
+      </div>
+      <div class="team-text">
+        <h2>{{ teamForm.value.teamName }}</h2>
+        <p class="team-slogan">
+          {{ teamForm.value.teamSlogan || "Aucun slogan" }}
+        </p>
+      </div>
+    </div>
+
+    <div class="right-section">
+      <div class="participants-progress" matTooltip="Nombre de participants">
+        <mat-progress-spinner
+          mode="determinate"
+          [value]="(participants.length / tailleEquipe) * 100"
+          diameter="60"
+          strokeWidth="5"
+          class="progress-circle"
+        ></mat-progress-spinner>
+        <div class="progress-label">
+          {{ participants.length }}/{{ tailleEquipe }}
+        </div>
+      </div>
+
+      <div class="stats-inline">
+        <div class="stat" matTooltip="Nombre de points totaux">
+          <span class="label">Totaux</span>
+          <span class="value">{{ data.team.POINTS_TOTAL || "n/a" }}</span>
+        </div>
+        <div class="stat" matTooltip="Nombre de points actifs">
+          <span class="label">Actifs</span>
+          <span class="value">{{ data.team.POINTS_ACTIFS || "n/a" }}</span>
+        </div>
+        <div class="stat" matTooltip="Nombre de points bonus">
+          <span class="label">Bonus</span>
+          <span class="value">{{ data.team.POINTS_BONUS || "n/a" }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="sliding-panels"
+    [class.editing]="isEditing"
+    [class.adding-member]="isAddingMember"
+  >
+    <div class="panel details-panel">
+      <div class="participants-list">
+        <div class="participants-title-container">
+          <div class="participants-title">
+            {{ participants.length === 0 ? "Aucun membre trouvé" : "Membres:" }}
+          </div>
+          <button
+            class="btn btn-create add-member-button"
+            (click)="openAddMemberPanel()"
+            matTooltip="Ajouter un membre à l'équipe"
+            *ngIf="!readOnly"
+          >
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+        <app-user-card
+          *ngFor="let participant of participants"
+          [user]="participant"
+          [buttonType]="readOnly ? 'none' : 'remove'"
+          [disabled]="isProcessingUser(participant._id || '')"
+          (buttonClick)="removeParticipant($event)"
+          (cardClick)="viewParticipant($event)"
+        ></app-user-card>
+      </div>
+
+      <div class="action-buttons" *ngIf="!readOnly">
+        <button type="button" class="btn btn-create" (click)="toggleEdit()">
+          Modifier
+        </button>
+      </div>
+    </div>
+
+    <div class="panel edit-panel">
+      <div class="panel-header">
+        <mat-icon
+          class="back-icon"
+          (click)="toggleEdit()"
+          (keydown)="toggleEdit()"
+        >
+          arrow_back
+        </mat-icon>
+        <h2>Modifier Infos</h2>
+      </div>
+      <form [formGroup]="teamForm" class="edit-form">
+        <mat-form-field appearance="outline">
+          <mat-label>Nom de l'équipe</mat-label>
+          <input
+            matInput
+            formControlName="teamName"
+            placeholder="Nom de l'équipe"
+          />
+          <mat-error *ngIf="teamForm.get('teamName')?.hasError('required')">
+            Le nom de l'équipe est obligatoire
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Slogan de l'équipe</mat-label>
+          <input
+            matInput
+            formControlName="teamSlogan"
+            placeholder="Slogan de l'équipe"
+          />
+        </mat-form-field>
+
+        <div class="edit-buttons">
+          <button
+            type="button"
+            class="btn btn-create"
+            [disabled]="teamForm.invalid"
+            (click)="onSubmit()"
+          >
+            Enregistrer
+          </button>
+          <button
+            type="button"
+            class="btn btn-delete"
+            [disabled]="isDeleting"
+            matTooltip="Supprimer l'équipe"
+            (click)="onDeleteTeam()"
+          >
+            Supprimer
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <div class="panel add-member-panel">
+      <div class="panel-header">
+        <mat-icon class="back-icon" (click)="closeAddMemberPanel()"
+          >arrow_back</mat-icon
+        >
+        <h2>Ajouter Membre</h2>
+
+        <mat-form-field appearance="outline" class="search-input">
+          <mat-label>Rechercher un participant</mat-label>
+          <input
+            matInput
+            [(ngModel)]="searchQuery"
+            (input)="searchUsersByName()"
+          />
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+      </div>
+
+      <div class="add-member-content">
+        <div class="participants-list">
+          <app-user-card
+            *ngFor="let user of filteredUsers"
+            [user]="user"
+            buttonType="add"
+            [disabled]="isProcessingUser(user._id || '')"
+            (buttonClick)="addUser(user)"
+            (cardClick)="viewParticipant(user)"
+          ></app-user-card>
+        </div>
+        <div *ngIf="filteredUsers.length === 0" class="no-results">
+          Aucun participant trouvé
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

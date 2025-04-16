@@ -1,0 +1,89 @@
+:host {
+  display: block;
+  background-color: var(--background-color);
+  position: relative;
+}
+
+.mission-creation-form {
+  position: relative;
+  padding: 20px;
+
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    color: var(--text-color);
+  }
+
+  mat-dialog-content {
+    display: block;
+  }
+
+  mat-form-field {
+    width: 100%;
+    margin-bottom: 15px;
+    border-radius: 4px;
+  }
+
+  .close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: var(--text-color);
+  }
+
+  .form-actions {
+    display: flex;
+    justify-content: flex-end; 
+    gap: 10px;
+    margin-top: 20px;
+  }
+}
+
+.chips-container {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  cursor: pointer;
+}
+
+.mat-chip-option.mat-chip-selected {
+  background-color: #1976d2 !important;
+  color: white !important;
+}
+
+.custom-offsets {
+  margin-top: 15px;
+}
+
+.custom-link {
+  text-decoration: none;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  gap: 0.3125rem; 
+  cursor: pointer;
+  margin: 1rem 0;
+}
+
+.custom-link .link-icon {
+  font-size: 1rem; 
+}
+
+.transparent-button {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  text-decoration: none;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  gap: 0.3125rem;
+  cursor: pointer;
+  padding: 0;
+}
+

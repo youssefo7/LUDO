@@ -1,0 +1,103 @@
+<div class="user-details-container">
+  <div class="profile-section">
+    <img
+      [src]="data.user.IMAGE || 'assets/default-image.png'"
+      alt="{{ data.user.NOM || 'n/a' }}"
+      class="profile-image"
+    />
+    <h2>{{ data.user.PRENOM || "n/a" }} {{ data.user.NOM || "n/a" }}</h2>
+    <h3>{{ data.user.EMAIL || "" }}</h3>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-item" *ngIf="fromLeaderboard">
+      <div class="stat-value">
+        {{ missionCount !== null ? missionCount : "n/a" }}
+      </div>
+      <div class="stat-label">Missions</div>
+    </div>
+
+    <div class="stat-item" *ngIf="fromLeaderboard">
+      <div class="stat-value">
+        {{ activityCount !== null ? activityCount : "n/a" }}
+      </div>
+      <div class="stat-label">Activités</div>
+    </div>
+
+    <div class="stat-item">
+      <div class="stat-value">
+        {{ data.user.POINTS_TOTAL !== null ? data.user.POINTS_TOTAL : "n/a" }}
+      </div>
+      <div class="stat-label">Points totaux</div>
+    </div>
+
+    <div class="stat-item">
+      <div class="stat-value">
+        {{ data.user.POINTS_BONUS !== null ? data.user.POINTS_BONUS : "n/a" }}
+      </div>
+      <div class="stat-label">Points Bonus</div>
+    </div>
+
+    <div class="stat-item">
+      <div class="stat-value">
+        {{ data.user.POINTS_ACTIFS !== null ? data.user.POINTS_ACTIFS : "n/a" }}
+      </div>
+      <div class="stat-label">Points actifs</div>
+    </div>
+
+    <div class="stat-item" *ngIf="!fromLeaderboard">
+      <div class="stat-value">{{ data.user.LANG || "n/a" }}</div>
+      <div class="stat-label">Language</div>
+    </div>
+
+    <div class="stat-item">
+      <div class="stat-value">
+        {{ data.user.MINUTES_TOTAL !== null ? data.user.MINUTES_TOTAL : "n/a" }}
+      </div>
+      <div class="stat-label">Minutes Totales</div>
+    </div>
+  </div>
+
+  <div class="info-section">
+    <h3>Équipes</h3>
+    <div class="team-list">
+      <div *ngFor="let team of teams" class="team-item">
+        <span class="team-name">{{ team.NOM }}</span>
+        <button
+          *ngIf="!fromLeaderboard"
+          mat-icon-button
+          (click)="removeFromTeam(data.user._id, team._id!)"
+          class="action-button remove-icon"
+          matTooltip="Retirer le participant de l'équipê"
+        >
+          <mat-icon> remove_circle </mat-icon>
+        </button>
+      </div>
+      <div *ngIf="!teams.length" class="no-data">
+        Le participant n'appartient à aucune équipe
+      </div>
+    </div>
+  </div>
+
+  <div class="info-section">
+    <h3>Défis Actifs</h3>
+    <div class="challenge-list">
+      <div *ngFor="let defi of defis" class="challenge-item">
+        <div>
+          <mat-icon class="defi-icon">military_tech</mat-icon>
+          <span class="challenge-name">{{ defi["NOM_DÉFI_FR"] }}</span>
+        </div>
+        <button
+          *ngIf="!fromLeaderboard"
+          mat-icon-button
+          (click)="removeFromDefi(data.user._id, defi._id)"
+          class="action-button remove-icon"
+          matTooltip="Supprimer le participant du défi"
+        >
+          <mat-icon> remove_circle </mat-icon>
+        </button>
+      </div>
+      <div *ngIf="!defis.length" class="no-data">Aucun défi en cours</div>
+    </div>
+  </div>
+</div>

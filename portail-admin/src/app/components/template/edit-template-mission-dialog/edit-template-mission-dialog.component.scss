@@ -1,0 +1,104 @@
+:host {
+  display: block;
+  background-color: var(--background-color);
+  position: relative;
+}
+
+.mission-popup-form {
+  position: relative;
+  padding: 1.25rem;
+  border-radius: 0.5rem;
+  color: var(--text-color);
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+
+  .close-button {
+    position: absolute;
+    top: 0.625rem;
+    right: 0.625rem;
+    color: var(--text-color);
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 1.25rem;
+    font-size: 1.5rem;
+  }
+
+  .popup-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .popup-badge {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .mission-description {
+    font-size: 0.95rem;
+    color: var(--paragraph-color);
+  }
+
+  .mission-points {
+    margin-left: auto;
+    padding: 0.25rem 0.75rem;
+    background-color: var(--primary-color);
+    color: var(--white);
+    border-radius: 1rem;
+    font-weight: 500;
+  }
+
+  .date-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    mat-form-field {
+      border-radius: 0.25rem;
+    }
+  }
+
+  .form-actions {
+    display: flex;
+    justify-content: flex-end; 
+    gap: 0.625rem;
+    margin-top: 1.25rem;
+  }
+
+  .custom-link {
+    text-decoration: none;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    gap: 0.3125rem; 
+    cursor: pointer;
+    margin: 1rem 0;
+  }
+  
+  .custom-link .link-icon {
+    font-size: 1rem; 
+  }
+  
+  .transparent-button {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    text-decoration: none;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    gap: 0.3125rem;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .custom-offsets {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+}

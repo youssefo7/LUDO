@@ -1,0 +1,16 @@
+<header class="navbar">
+  <img
+    class="logo"
+    src="../../../assets/logo-small.png"
+    alt="ludo-logo"
+    (click)="onLogoClick()"
+    (keyup.enter)="onLogoClick()"
+    tabindex="0"
+  />
+  <h2>{{ pageTitle }}</h2>
+  <div class="actions">
+    <button mat-icon-button (click)="signOut()" matTooltip="Déconnexion">
+      <mat-icon>logout</mat-icon>
+    </button>
+  </div>
+</header>

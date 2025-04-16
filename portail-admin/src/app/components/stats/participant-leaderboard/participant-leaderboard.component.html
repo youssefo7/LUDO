@@ -1,0 +1,183 @@
+<div class="participant-container">
+  <mat-card class="component-card leaderboard-card">
+    <div class="leaderboard-header">
+      <div class="header-row">
+        <div class="header-title">
+          <mat-icon>person</mat-icon>
+          <h2>Participants</h2>
+        </div>
+        <div class="filter-container">
+          <mat-form-field appearance="outline">
+            <mat-label>Rechercher</mat-label>
+            <input matInput (keyup)="applyFilter($event)" />
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="selectors-row">
+        <div class="selectors-left">
+          <mat-button-toggle-group
+            #participantPointsGroup="matButtonToggleGroup"
+            name="participantPointsSelection"
+            aria-label="Sélection de points"
+            [value]="selectedPointsType"
+            (change)="onPointsTypeChange(participantPointsGroup.value)"
+            class="points-group"
+          >
+            <mat-button-toggle [value]="enumPoints.ACTIVE"
+              >Actifs</mat-button-toggle
+            >
+            <mat-button-toggle [value]="enumPoints.BONUS"
+              >Bonus</mat-button-toggle
+            >
+            <mat-button-toggle [value]="enumPoints.TOTAL"
+              >Totaux</mat-button-toggle
+            >
+          </mat-button-toggle-group>
+        </div>
+        <div class="selectors-right">
+          <mat-button-toggle-group
+            #participantTimeGroup="matButtonToggleGroup"
+            name="participantTimeSelection"
+            aria-label="Sélection de temps"
+            [value]="selectedTimeInterval"
+            (change)="onTimeIntervalChange(participantTimeGroup.value)"
+            class="time-group"
+          >
+            <mat-button-toggle [value]="enumInterval.WEEK">{{
+              enumInterval.WEEK
+            }}</mat-button-toggle>
+            <mat-button-toggle [value]="enumInterval.GLOBAL">{{
+              enumInterval.GLOBAL
+            }}</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+      </div>
+    </div>
+    <div class="leaderboard-content">
+      <div class="leaderboard-container">
+        <div class="table-wrapper">
+          <table
+            mat-table
+            [dataSource]="dataSource"
+            matSort
+            class="participant-table"
+          >
+            <!-- User Info Column (Combined image and name) -->
+            <ng-container matColumnDef="userInfo">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header="name"
+                class="mat-column-userInfo"
+              >
+                Participant
+              </th>
+              <td
+                mat-cell
+                *matCellDef="let element"
+                class="user-info-cell mat-column-userInfo"
+              >
+                <div class="user-info">
+                  <img
+                    class="user-avatar"
+                    [src]="element.IMAGE || 'assets/default-image.png'"
+                    alt="Profile"
+                  />
+                  <div class="user-details">
+                    <span class="user-name"
+                      >{{ element.PRENOM }} {{ element.NOM }}</span
+                    >
+                  </div>
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- Last Activity Column -->
+            <ng-container matColumnDef="lastActivity">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header="lastActivity"
+                class="mat-column-lastActivity"
+              >
+                Dernière activité
+              </th>
+              <td
+                mat-cell
+                *matCellDef="let element"
+                class="activity-cell mat-column-lastActivity"
+              >
+                {{ formatDate(element.LAST_ACTIVITY) }}
+              </td>
+            </ng-container>
+
+            <!-- Registration Date Column -->
+            <ng-container matColumnDef="registrationDate">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header="registrationDate"
+                class="mat-column-registrationDate"
+              >
+                Date d'inscription
+              </th>
+              <td
+                mat-cell
+                *matCellDef="let element"
+                class="registration-cell mat-column-registrationDate"
+              >
+                {{ formatDate(element.CREATED_DATE) }}
+              </td>
+            </ng-container>
+
+            <!-- Points Column -->
+            <ng-container matColumnDef="points">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header="points"
+                class="mat-column-points"
+              >
+                {{ selectedPointsType }}
+              </th>
+              <td
+                mat-cell
+                *matCellDef="let element"
+                class="points-cell mat-column-points"
+              >
+                <div class="points-value">
+                  {{ this.getSelectedPointsDefi(element) }}
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- Table Layout -->
+            <tr
+              mat-header-row
+              *matHeaderRowDef="displayedColumns; sticky: true"
+            ></tr>
+            <tr
+              mat-row
+              *matRowDef="let row; columns: displayedColumns"
+              (click)="viewParticipant(row)"
+              class="participant-row"
+            ></tr>
+
+            <!-- Empty State -->
+            <tr class="mat-row" *matNoDataRow>
+              <td
+                class="mat-cell empty-state"
+                [attr.colspan]="displayedColumns.length"
+              >
+                <div class="empty-message">
+                  <mat-icon>search</mat-icon>
+                  <span>Aucun participant trouvé</span>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+</div>

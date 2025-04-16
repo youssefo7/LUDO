@@ -1,0 +1,138 @@
+<div class="competition-container">
+  <mat-card class="component-card leaderboard-card">
+    <div class="leaderboard-header">
+      <div class="header-row">
+        <div class="header-title">
+          <mat-icon>groups</mat-icon>
+          <h2>Équipes</h2>
+        </div>
+        <div class="filter-container">
+          <mat-form-field appearance="outline">
+            <mat-label>Rechercher</mat-label>
+            <input matInput (keyup)="applyFilter($event)" />
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="selectors-row">
+        <div class="selectors-left">
+          <mat-button-toggle-group
+            #teamPointsGroup="matButtonToggleGroup"
+            name="teamPointsSelection"
+            aria-label="Sélection de points"
+            [value]="selectedPointsType"
+            (change)="onPointsTypeChange(teamPointsGroup.value)"
+            class="points-group"
+          >
+            <mat-button-toggle [value]="enumPoints.ACTIVE"
+              >Actifs</mat-button-toggle
+            >
+            <mat-button-toggle [value]="enumPoints.BONUS"
+              >Bonus</mat-button-toggle
+            >
+            <mat-button-toggle [value]="enumPoints.TOTAL"
+              >Totaux</mat-button-toggle
+            >
+          </mat-button-toggle-group>
+        </div>
+        <div class="selectors-right">
+          <mat-button-toggle-group
+            #teamTimeGroup="matButtonToggleGroup"
+            name="teamTimeSelection"
+            aria-label="Sélection de temps"
+            [value]="selectedTimeInterval"
+            (change)="onTimeIntervalChange(teamTimeGroup.value)"
+            class="time-group"
+          >
+            <mat-button-toggle [value]="enumInterval.WEEK">{{
+              enumInterval.WEEK
+            }}</mat-button-toggle>
+            <mat-button-toggle [value]="enumInterval.GLOBAL">{{
+              enumInterval.GLOBAL
+            }}</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+      </div>
+    </div>
+    <div class="leaderboard-content">
+      <div class="leaderboard-container">
+        <div class="table-wrapper">
+          <table mat-table [dataSource]="dataSource" matSort class="team-table">
+            <!-- Team Info Column (Combined image and name) -->
+            <ng-container matColumnDef="teamInfo">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header="name"
+                class="mat-column-teamInfo"
+              >
+                Équipe
+              </th>
+              <td
+                mat-cell
+                *matCellDef="let element"
+                class="team-info-cell mat-column-teamInfo"
+              >
+                <div class="team-info">
+                  <img
+                    class="team-avatar"
+                    [src]="element.IMAGE || 'assets/default-image.png'"
+                    alt="Team"
+                  />
+                  <div class="team-details">
+                    <span class="team-name">{{ element.NOM }}</span>
+                  </div>
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- Points Column -->
+            <ng-container matColumnDef="points">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header="points"
+                class="mat-column-points"
+              >
+                {{ selectedPointsType }}
+              </th>
+              <td
+                mat-cell
+                *matCellDef="let element"
+                class="points-cell mat-column-points"
+              >
+                <div class="points-value">
+                  {{ getSelectedPointsDefi(element) }}
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- Table Layout -->
+            <tr
+              mat-header-row
+              *matHeaderRowDef="displayedColumns; sticky: true"
+            ></tr>
+            <tr
+              mat-row
+              *matRowDef="let row; columns: displayedColumns"
+              (click)="viewTeam(row)"
+              class="team-row"
+            ></tr>
+
+            <!-- Empty State -->
+            <tr class="mat-row" *matNoDataRow>
+              <td
+                class="mat-cell empty-state"
+                [attr.colspan]="displayedColumns.length"
+              >
+                <div class="empty-message">
+                  <mat-icon>search</mat-icon>
+                  <span>Aucune équipe trouvée</span>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+</div>

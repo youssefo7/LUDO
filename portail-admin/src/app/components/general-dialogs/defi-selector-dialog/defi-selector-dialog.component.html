@@ -1,0 +1,55 @@
+<div class="dialog-container">
+  <button mat-icon-button class="close-button" (click)="onClose()" aria-label="Close dialog">
+    <mat-icon>close</mat-icon>
+  </button>
+  <h2 class="dialog-title">Sélecteur de dates</h2>
+
+  <div class="dates-section">
+    <div class="date-item">
+      <span class="date-label">Début</span>
+      <span class="date-value">{{ formattedDate(range.controls.start.value) }}</span>
+    </div>
+    <div class="date-item">
+      <span class="date-label">Fin</span>
+      <span class="date-value">{{ formattedDate(range.controls.end.value) }}</span>
+    </div>
+  </div>
+
+  <mat-chip-listbox multiple class="chips-container">
+    <mat-chip-option 
+      *ngFor="let phase of stateService.allTimeSlots" 
+      [selected]="selectedPhases.includes(phase)"
+      (click)="toggleSelection(phase)"
+      selectable="true"
+      class="chip"
+    >
+      {{ phase.LABEL }}
+    </mat-chip-option>
+  </mat-chip-listbox>
+  
+  <a href="#" (click)="toggleDatePicker($event)" class="custom-link">
+    Dates personnalisées 
+    <mat-icon class="link-icon">{{ isDatePickerVisible ? 'remove' : 'add' }}</mat-icon>
+  </a>
+  
+  <div *ngIf="isDatePickerVisible" class="date-picker-container">
+    <mat-form-field appearance="outline">
+      <mat-label>Plage de dates</mat-label>
+      <mat-date-range-input [formGroup]="range" [rangePicker]="picker" [dateFilter]="dateFilter">
+        <input matStartDate formControlName="start" placeholder="Start date">
+        <input matEndDate formControlName="end" placeholder="End date">
+      </mat-date-range-input>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
+  </div>
+
+  <mat-dialog-actions align="end" class="dialog-actions">
+    <button 
+      mat-flat-button 
+      (click)="onSelect()" 
+      [disabled]="selectedPhases.length === 0 && (!range.value.start && !range.value.end)">
+      Confirmer
+    </button>
+  </mat-dialog-actions>
+</div>

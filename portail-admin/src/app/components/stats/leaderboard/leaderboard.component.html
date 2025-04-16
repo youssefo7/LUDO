@@ -1,0 +1,49 @@
+<div class="tab-header">
+  <div class="row-container">
+    <h2>Classement</h2>
+    <mat-form-field appearance="outline">
+      <mat-label>Filter</mat-label>
+      <input
+        matInput
+        (keyup)="applyFilter($event)"
+        #input
+      />
+    </mat-form-field>
+  </div>
+    <div class="selectors">
+        <mat-button-toggle-group #group1="matButtonToggleGroup"
+        name="pointsSelection"
+        aria-label="Sélection de points" [value]="teamService.selectedPointsType" (change)="onValPointsChange(group1.value)">
+            <mat-button-toggle [value]="pointsEnum.ACTIVE">{{pointsEnum.ACTIVE}}</mat-button-toggle>
+            <mat-button-toggle [value]="pointsEnum.BONUS">{{pointsEnum.BONUS}}</mat-button-toggle>
+            <mat-button-toggle [value]="pointsEnum.TOTAL">{{pointsEnum.TOTAL}}</mat-button-toggle>
+        </mat-button-toggle-group>
+        <mat-button-toggle-group #group2="matButtonToggleGroup"
+        name="timeSelection"
+        aria-label="Sélection de temps" [value]="teamService.selectedIntervalType" (change)="onValTimeChange(group2.value)">
+            <mat-button-toggle [value]="timeEnum.WEEK">{{timeEnum.WEEK}}</mat-button-toggle>
+            <mat-button-toggle [value]="timeEnum.GLOBAL">{{timeEnum.GLOBAL}}</mat-button-toggle>
+        </mat-button-toggle-group>
+    </div>
+</div>
+<div class="container">
+    <mat-tab-group [selectedIndex]="teamService.selectedTabIndex" (selectedTabChange)="onTabChanged($event);">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <h4>Participants</h4>
+        </ng-template>
+        <div class="tab-content">
+            <app-participant-leaderboard #participantLeaderboard></app-participant-leaderboard>
+        </div>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <h3>Équipes</h3>
+        </ng-template>
+        <div class="tab-content">
+            <app-competition-leaderboard #teamLeaderboard></app-competition-leaderboard>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+  
